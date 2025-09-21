@@ -1,0 +1,572 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #000000;
+    color: #ffffff;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header Styles */
+.header {
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.logo h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #ffffff;
+    animation: fadeInDown 1s ease-out;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 40px 0;
+}
+
+.hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    width: 100%;
+}
+
+.hero-content {
+    max-width: 500px;
+}
+
+.headline {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    color: #ffffff;
+    animation: slideInLeft 1.2s ease-out;
+}
+
+.description {
+    font-size: 1.1rem;
+    color: #cccccc;
+    margin-bottom: 32px;
+    line-height: 1.7;
+    animation: fadeInUp 1.4s ease-out;
+}
+
+/* Benefits Section */
+.benefits {
+    margin-bottom: 40px;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 1rem;
+    color: #e0e0e0;
+}
+
+.checkmark {
+    color: #ffffff;
+    font-weight: 600;
+    margin-right: 12px;
+    font-size: 1.1rem;
+    animation: pulse 2s infinite;
+}
+
+/* CTA Section */
+.cta-section {
+    text-align: center;
+}
+
+.enroll-btn {
+    background: #ffffff;
+    border: 2px solid #ffffff;
+    border-radius: 12px;
+    padding: 20px 40px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0 8px 32px rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 280px;
+    animation: bounceIn 1.8s ease-out;
+}
+
+.enroll-btn:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 15px 50px rgba(255, 255, 255, 0.4);
+    background: #000000;
+    color: #ffffff;
+    border-color: #ffffff;
+}
+
+.enroll-btn:active {
+    transform: translateY(0);
+}
+
+.btn-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 4px;
+    transition: color 0.4s ease;
+}
+
+.btn-subtext {
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.8);
+    font-weight: 400;
+    transition: color 0.4s ease;
+}
+
+.guarantee {
+    margin-top: 16px;
+    font-size: 0.9rem;
+    color: #cccccc;
+    animation: fadeInUp 2s ease-out;
+}
+
+/* Hero Visual */
+.hero-visual {
+    display: flex;
+    justify-content: center;
+}
+
+.course-preview {
+    background: rgba(255, 255, 255, 0.03);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 24px;
+    backdrop-filter: blur(10px);
+    max-width: 400px;
+    width: 100%;
+    animation: slideInRight 1.6s ease-out;
+}
+
+.preview-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.preview-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ffffff;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+
+.module {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    color: #ffffff;
+    transition: all 0.4s ease;
+    animation: fadeInModule 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.module:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateX(8px) scale(1.02);
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+}
+
+/* Footer */
+.footer {
+    padding: 20px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+    color: #cccccc;
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+    .hero {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+    }
+    
+    .headline {
+        font-size: 2.8rem;
+    }
+    
+    .hero-visual {
+        order: -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 16px;
+    }
+    
+    .headline {
+        font-size: 2.2rem;
+    }
+    
+    .description {
+        font-size: 1rem;
+    }
+    
+    .enroll-btn {
+        padding: 18px 32px;
+        min-width: 260px;
+    }
+    
+    .btn-text {
+        font-size: 1.1rem;
+    }
+    
+    .course-preview {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 20px 0;
+    }
+    
+    .headline {
+        font-size: 1.8rem;
+    }
+    
+    .hero {
+        gap: 30px;
+    }
+    
+    .enroll-btn {
+        padding: 16px 24px;
+        min-width: 240px;
+    }
+    
+    .benefits {
+        margin-bottom: 32px;
+    }
+    
+    .benefit-item {
+        font-size: 0.95rem;
+    }
+}
+
+/* Loading Animation */
+.enroll-btn.loading {
+    pointer-events: none;
+}
+
+.enroll-btn.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid transparent;
+    border-top: 2px solid #000000;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Button hover state text color changes */
+.enroll-btn:hover .btn-text {
+    color: #ffffff;
+}
+
+.enroll-btn:hover .btn-subtext {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Animation Keyframes */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3) translateY(20px);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05) translateY(-5px);
+    }
+    70% {
+        transform: scale(0.95) translateY(0);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    }
+    to {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.6);
+    }
+}
+
+@keyframes fadeInModule {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Staggered animation delays for modules */
+.module:nth-child(1) { animation-delay: 0.2s; }
+.module:nth-child(2) { animation-delay: 0.4s; }
+.module:nth-child(3) { animation-delay: 0.6s; }
+.module:nth-child(4) { animation-delay: 0.8s; }
+.module:nth-child(5) { animation-delay: 1.0s; }
+
+/* Benefits animation */
+.benefit-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 1rem;
+    color: #ffffff;
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+}
+
+.benefit-item:nth-child(1) { animation-delay: 1.6s; }
+.benefit-item:nth-child(2) { animation-delay: 1.8s; }
+.benefit-item:nth-child(3) { animation-delay: 2.0s; }
+.benefit-item:nth-child(4) { animation-delay: 2.2s; }
+
+/* Floating animation for the course preview */
+.course-preview {
+    animation: slideInRight 1.6s ease-out, float 6s ease-in-out infinite 2s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Background animation */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+    animation: backgroundShift 20s ease-in-out infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes backgroundShift {
+    0%, 100% {
+        transform: translateX(0) translateY(0);
+    }
+    33% {
+        transform: translateX(-20px) translateY(-10px);
+    }
+    66% {
+        transform: translateX(20px) translateY(10px);
+    }
+}
+
+/* Payment Message Styles */
+.payment-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.95);
+    border-radius: 12px;
+    padding: 0;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    max-width: 400px;
+    width: 90%;
+    animation: messageSlideIn 0.3s ease-out;
+}
+
+.payment-message.success {
+    border-color: rgba(34, 197, 94, 0.5);
+    background: rgba(0, 0, 0, 0.95);
+}
+
+.payment-message.error {
+    border-color: rgba(239, 68, 68, 0.5);
+    background: rgba(0, 0, 0, 0.95);
+}
+
+.payment-message.warning {
+    border-color: rgba(245, 158, 11, 0.5);
+    background: rgba(0, 0, 0, 0.95);
+}
+
+.payment-message.info {
+    border-color: rgba(59, 130, 246, 0.5);
+    background: rgba(0, 0, 0, 0.95);
+}
+
+.message-content {
+    padding: 24px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.message-content h3 {
+    margin-bottom: 12px;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.payment-message.success .message-content h3 {
+    color: #22c55e;
+}
+
+.payment-message.error .message-content h3 {
+    color: #ef4444;
+}
+
+.payment-message.warning .message-content h3 {
+    color: #f59e0b;
+}
+
+.payment-message.info .message-content h3 {
+    color: #3b82f6;
+}
+
+.message-content p {
+    margin-bottom: 8px;
+    line-height: 1.5;
+    color: #e0e0e0;
+}
+
+.close-message {
+    background: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    color: #000000;
+    cursor: pointer;
+    margin-top: 16px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.close-message:hover {
+    background: #f0f0f0;
+    transform: translateY(-1px);
+}
+
+@keyframes messageSlideIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}

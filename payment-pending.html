@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co">
+    <title>Email Verification Required - Affiliate Marketing Course</title>
+    <meta name="description" content="Please verify your email before proceeding to payment">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000000;
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Container */
+        .pending-container {
+            width: 100%;
+            max-width: 500px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .pending-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        /* Header */
+        .pending-header {
+            margin-bottom: 32px;
+        }
+
+        .pending-logo {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .pending-icon {
+            font-size: 4rem;
+            margin-bottom: 24px;
+        }
+
+        .pending-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 16px;
+        }
+
+        .pending-subtitle {
+            color: #cccccc;
+            font-size: 1rem;
+            margin-bottom: 24px;
+        }
+
+        /* Status Messages */
+        .status-message {
+            background: rgba(255, 193, 7, 0.1);
+            border: 2px solid rgba(255, 193, 7, 0.3);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .status-message.verified {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .status-message.error {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .status-text {
+            color: #ffffff;
+            font-size: 1rem;
+            margin-bottom: 12px;
+        }
+
+        .user-email {
+            color: #ffffff;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            margin: 8px 0;
+        }
+
+        /* Buttons */
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .btn {
+            padding: 16px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #ffffff;
+            color: #000000;
+            border: 2px solid #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: #000000;
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #ffffff;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Progress indicator */
+        .verification-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 32px;
+            position: relative;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #cccccc;
+        }
+
+        .step.completed .step-number {
+            background: #22c55e;
+            border-color: #22c55e;
+            color: #ffffff;
+        }
+
+        .step.current .step-number {
+            background: #f59e0b;
+            border-color: #f59e0b;
+            color: #ffffff;
+        }
+
+        .step-label {
+            font-size: 0.85rem;
+            color: #cccccc;
+            text-align: center;
+        }
+
+        .step.completed .step-label {
+            color: #22c55e;
+        }
+
+        .step.current .step-label {
+            color: #f59e0b;
+        }
+
+        /* Connection line */
+        .step::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 60%;
+            right: -40%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: -1;
+        }
+
+        .step:last-child::after {
+            display: none;
+        }
+
+        .step.completed::after {
+            background: #22c55e;
+        }
+
+        /* Footer */
+        .pending-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 24px;
+            margin-top: 24px;
+        }
+
+        .footer-link {
+            color: #cccccc;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            body {
+                padding: 16px;
+            }
+            
+            .pending-card {
+                padding: 24px;
+            }
+
+            .verification-steps {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .step::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="pending-container">
+        <div class="pending-card">
+            <div class="pending-header">
+                <h1 class="pending-logo">Affiliate Mastery</h1>
+            </div>
+
+            <div class="verification-steps">
+                <div class="step completed">
+                    <div class="step-number">✓</div>
+                    <div class="step-label">Sign Up</div>
+                </div>
+                <div class="step current" id="emailStep">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Verify Email</div>
+                </div>
+                <div class="step" id="paymentStep">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Payment</div>
+                </div>
+            </div>
+
+            <div class="pending-icon">📧</div>
+            <h2 class="pending-title" id="statusTitle">Email Verification Required</h2>
+            <p class="pending-subtitle" id="statusSubtitle">Please verify your email before proceeding to payment</p>
+
+            <div class="status-message" id="statusMessage">
+                <div class="status-text" id="statusText">
+                    We've sent a verification link to:
+                    <div class="user-email" id="userEmailDisplay">Loading...</div>
+                    Please check your email and click the verification link.
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" id="proceedBtn" disabled>
+                    <span id="proceedText">Checking Email Status...</span>
+                    <div class="spinner" id="proceedSpinner"></div>
+                </button>
+                <button class="btn btn-secondary" id="resendBtn">
+                    Resend Verification Email
+                </button>
+                <a href="signup.html" class="btn btn-secondary">
+                    ← Back to Sign Up
+                </a>
+            </div>
+
+            <div class="pending-footer">
+                <a href="login.html" class="footer-link">Already verified? Sign In</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase Client - Updated version with better CSP support -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.js"></script>
+    <!-- Configuration -->
+    <script src="config.js"></script>
+    <script>
+        let supabase;
+        let userData = {};
+        let checkInterval;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Supabase
+            if (typeof CONFIG !== 'undefined' && CONFIG.SUPABASE.URL && CONFIG.SUPABASE.ANON_KEY) {
+                supabase = window.supabase.createClient(CONFIG.SUPABASE.URL, CONFIG.SUPABASE.ANON_KEY, {
+                    auth: {
+                        autoRefreshToken: true,
+                        persistSession: true,
+                        detectSessionInUrl: false
+                    },
+                    // Disable analytics to prevent storage warnings
+                    analytics: {
+                        enabled: false
+                    }
+                });
+                console.log('Supabase initialized');
+            }
+
+            // Load user data
+            loadUserData();
+
+            // Setup event listeners
+            setupEventListeners();
+
+            // Start checking email verification status
+            startEmailCheck();
+        });
+
+        function loadUserData() {
+            // Get user data from localStorage
+            const storedData = localStorage.getItem('pendingUserData');
+            if (storedData) {
+                userData = JSON.parse(storedData);
+                document.getElementById('userEmailDisplay').textContent = userData.email;
+            } else {
+                // No user data, redirect to signup
+                window.location.href = 'signup.html';
+            }
+        }
+
+        function setupEventListeners() {
+            document.getElementById('proceedBtn').addEventListener('click', proceedToPayment);
+            document.getElementById('resendBtn').addEventListener('click', resendVerification);
+        }
+
+        function startEmailCheck() {
+            checkEmailVerification();
+            // Check every 5 seconds
+            checkInterval = setInterval(checkEmailVerification, 5000);
+        }
+
+        async function checkEmailVerification() {
+            if (!supabase || !userData.userId) return;
+
+            try {
+                // Check if user has verified their email
+                const { data: { user }, error } = await supabase.auth.admin.getUserById(userData.userId);
+                
+                if (error) {
+                    console.error('Error checking user:', error);
+                    return;
+                }
+
+                if (user && user.email_confirmed_at) {
+                    // Email is verified!
+                    clearInterval(checkInterval);
+                    showEmailVerified();
+                }
+
+            } catch (error) {
+                console.error('Email check error:', error);
+            }
+        }
+
+        function showEmailVerified() {
+            // Update UI to show verification success
+            document.getElementById('emailStep').classList.add('completed');
+            document.getElementById('emailStep').classList.remove('current');
+            document.getElementById('paymentStep').classList.add('current');
+
+            document.getElementById('statusTitle').textContent = 'Email Verified!';
+            document.getElementById('statusSubtitle').textContent = 'You can now proceed to payment';
+
+            const statusMessage = document.getElementById('statusMessage');
+            statusMessage.classList.add('verified');
+            document.getElementById('statusText').innerHTML = `
+                ✅ Your email has been successfully verified!<br>
+                You can now proceed to complete your course enrollment.
+            `;
+
+            const proceedBtn = document.getElementById('proceedBtn');
+            proceedBtn.disabled = false;
+            proceedBtn.innerHTML = '<span>Proceed to Payment</span>';
+        }
+
+        async function proceedToPayment() {
+            // Redirect to payment page with user data
+            const params = new URLSearchParams({
+                name: encodeURIComponent(userData.fullName),
+                email: encodeURIComponent(userData.email),
+                phone: encodeURIComponent(userData.phone)
+            });
+            
+            window.location.href = `payment.html?${params.toString()}`;
+        }
+
+        async function resendVerification() {
+            const resendBtn = document.getElementById('resendBtn');
+            resendBtn.disabled = true;
+            resendBtn.innerHTML = '<span>Sending...</span><div class="spinner"></div>';
+
+            try {
+                if (!supabase) {
+                    throw new Error('Authentication service not available');
+                }
+
+                const { error } = await supabase.auth.resend({
+                    type: 'signup',
+                    email: userData.email
+                });
+
+                if (error) {
+                    throw error;
+                }
+
+                // Show success message
+                document.getElementById('statusText').innerHTML = `
+                    📧 Verification email resent to:<br>
+                    <div class="user-email">${userData.email}</div>
+                    Please check your inbox and spam folder.
+                `;
+
+            } catch (error) {
+                console.error('Resend error:', error);
+                document.getElementById('statusText').innerHTML = `
+                    ❌ Failed to resend verification email.<br>
+                    Please try again later or contact support.
+                `;
+            } finally {
+                resendBtn.disabled = false;
+                resendBtn.innerHTML = 'Resend Verification Email';
+            }
+        }
+
+        // Clean up interval when page unloads
+        window.addEventListener('beforeunload', function() {
+            if (checkInterval) {
+                clearInterval(checkInterval);
+            }
+        });
+    </script>
+</body>
+</html>

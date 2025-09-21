@@ -1,0 +1,2201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self' https: blob:; frame-src 'self' https://drive.google.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co">
+    <title>Course Dashboard - Affiliate Marketing Mastery</title>
+    <meta name="description" content="Access your affiliate marketing course content">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000000;
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .course-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 350px;
+            background: rgba(255, 255, 255, 0.03);
+            border-right: 2px solid rgba(255, 255, 255, 0.1);
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .user-info {
+            color: #cccccc;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: #ffffff;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .modules-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #ffffff;
+        }
+
+        .class-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .class-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .class-item.active {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .class-number {
+            font-size: 0.8rem;
+            color: #cccccc;
+            margin-bottom: 4px;
+        }
+
+        .class-title {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 24px;
+        }
+
+        .content-header {
+            margin-bottom: 24px;
+        }
+
+        .current-module {
+            font-size: 0.9rem;
+            color: #cccccc;
+            margin-bottom: 8px;
+        }
+
+        .current-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .video-container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .video-player {
+            width: 100%;
+            height: 450px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 450px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .video-placeholder-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+
+        .video-placeholder-text {
+            font-size: 1.1rem;
+            color: #cccccc;
+        }
+
+        .video-description {
+            color: #cccccc;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Class Content */
+        .class-content {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 32px;
+            margin-top: 24px;
+            color: #ffffff;
+        }
+
+        .class-content h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 16px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 12px;
+        }
+
+        .class-content h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin: 32px 0 16px 0;
+        }
+
+        .class-content h3 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #ffffff;
+            margin: 24px 0 12px 0;
+        }
+
+        .class-content p {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #e0e0e0;
+            margin-bottom: 16px;
+        }
+
+        .class-content strong {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .class-content ul {
+            margin: 16px 0;
+            padding-left: 24px;
+        }
+
+        .class-content li {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+            margin-bottom: 8px;
+        }
+
+        .myth-reality-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .myth-reality-table th {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-weight: 600;
+            padding: 16px;
+            text-align: left;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .myth-reality-table td {
+            padding: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e0e0e0;
+            vertical-align: top;
+        }
+
+        .myth-reality-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .key-takeaways {
+            background: rgba(0, 255, 0, 0.1);
+            border: 2px solid rgba(0, 255, 0, 0.3);
+            border-radius: 8px;
+            padding: 24px;
+            margin-top: 32px;
+        }
+
+        .key-takeaways h3 {
+            color: #00ff00;
+            margin-top: 0;
+        }
+
+        /* Loading State */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+            color: #cccccc;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .course-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .main-content {
+                padding: 16px;
+            }
+
+            .current-title {
+                font-size: 1.5rem;
+            }
+
+            .video-player, .video-placeholder {
+                height: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="loadingState" class="loading">
+        <div>Loading course content...</div>
+    </div>
+
+    <div id="courseContainer" class="course-container" style="display: none;">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <h1>Affiliate Mastery</h1>
+                </div>
+                <div class="user-info" id="userInfo">
+                    <div id="userEmail">Loading...</div>
+                    <button class="logout-btn" id="logoutBtn">Sign Out</button>
+                </div>
+            </div>
+
+            <div class="modules-section">
+                <h3 class="modules-title">Course Classes</h3>
+                <div id="classesList">
+                    <!-- Classes will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="content-header">
+                <div class="current-module" id="currentClass">Class 1</div>
+                <h1 class="current-title" id="currentTitle">Introduction to Affiliate Marketing</h1>
+            </div>
+
+            <div class="video-container">
+                <div id="videoPlayer" class="video-placeholder">
+                    <div class="video-placeholder-icon">🎥</div>
+                    <div class="video-placeholder-text">Select a class to start learning</div>
+                </div>
+                <p class="video-description" id="videoDescription">
+                    Welcome to the Affiliate Marketing Mastery course. Select a class from the sidebar to begin your learning journey.
+                </p>
+            </div>
+
+            <!-- Class Content Area -->
+            <div class="class-content" id="classContent" style="display: none;">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase Client - Updated version with better CSP support -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.js"></script>
+    <!-- Configuration -->
+    <script src="config.js"></script>
+    <script>
+        // Course page functionality
+        let supabase;
+        let currentUser = null;
+        let currentClassIndex = 0;
+
+        // Course classes data - Replace driveId with your actual Google Drive video IDs
+        const courseClasses = [
+            {
+                id: 1,
+                title: "Introduction to Affiliate Marketing",
+                description: "What affiliate marketing really is (no hype, no fluff). Why it works and how money flows. Common myths vs. reality.",
+                driveId: "1PtVxmqkuDLewInwJzZpXvBI-IEbv2z-e", // Your actual affiliate marketing intro video
+                content: `
+                    <h1>Class 1: Introduction to Affiliate Marketing</h1>
+                    
+                    <p>Welcome. By the end of this class, you will have a crystal-clear understanding of what affiliate marketing is, the mechanics behind it, and how to separate the common myths from the profitable reality.</p>
+                    
+                    <h2>1. What Affiliate Marketing Really Is (No Hype, No Fluff)</h2>
+                    
+                    <p>At its core, affiliate marketing is a simple, performance-based partnership. It's an online business model where you get paid a commission for promoting other people's (or company's) products or services.</p>
+                    
+                    <p>Let's break it down with the four key players:</p>
+                    
+                    <p><strong>The Merchant (aka Advertiser or Brand):</strong> This is the company that creates the product or service. Examples: Amazon, Netflix, Shopify, a local software company, an online course creator.</p>
+                    
+                    <p><strong>The Affiliate (aka Publisher or You):</strong> This is the person who promotes the merchant's product. They use a website, YouTube channel, social media following, or email list to recommend the product to an audience.</p>
+                    
+                    <p><strong>The Customer (aka Consumer):</strong> This is the person who clicks on the affiliate's unique link and (hopefully) makes a purchase.</p>
+                    
+                    <p><strong>The Affiliate Network (the middleman):</strong> This is a platform that connects merchants with affiliates. They handle the tracking of clicks and sales, and the distribution of payments. Examples: ShareASale, CJ Affiliate, Rakuten Advertising. Note: Some large companies (like Amazon) have their own in-house affiliate programs.</p>
+                    
+                    <h3>The Simple Process:</h3>
+                    
+                    <ul>
+                        <li>You (the affiliate) join a merchant's affiliate program.</li>
+                        <li>They give you a special tracking link with your unique ID. (e.g., bestcoffeemaker.com/?ref=12345)</li>
+                        <li>You share that link with your audience through a review, tutorial, or recommendation.</li>
+                        <li>A customer clicks your link and buys the product on the merchant's website.</li>
+                        <li>The affiliate network tracks the sale back to your unique link.</li>
+                        <li>You earn a pre-agreed commission on the sale.</li>
+                    </ul>
+                    
+                    <p><strong>In one sentence:</strong> Affiliate marketing is the act of earning a commission for referring customers to a business, using a trackable link.</p>
+                    
+                    <h2>2. Why It Works & How Money Flows</h2>
+                    
+                    <h3>Why It Works:</h3>
+                    <p>It works because it's a win-win-win scenario.</p>
+                    
+                    <p><strong>Win for the Merchant:</strong> They only pay for actual results (a sale, a lead, a click). It's far less risky than paying upfront for an ad that might not work. They get access to new audiences without a massive marketing department.</p>
+                    
+                    <p><strong>Win for the Customer:</strong> They discover a product or service that solves a problem or meets a need, thanks to a genuine recommendation from someone they trust.</p>
+                    
+                    <p><strong>Win for You (the Affiliate):</strong> You can earn money by recommending products you already know and love, without the immense hassle of creating your own product, handling customer service, shipping, or inventory.</p>
+                    
+                    <h3>How The Money Flows:</h3>
+                    <p>The financial model is based on different types of compensation structures. Here are the most common:</p>
+                    
+                    <p><strong>Pay-Per-Sale (PPS):</strong> The most common model. You earn a percentage of the sale price (e.g., 5% of a $100 product = $5) or a fixed flat fee (e.g., $25 per new customer sign-up).</p>
+                    
+                    <p><strong>Pay-Per-Lead (PPL):</strong> You get paid when someone you refer performs a specific action that is valuable to the merchant, other than a sale. This is common for service-based businesses. (e.g., $10 for every person who signs up for a free trial or fills out a contact form).</p>
+                    
+                    <p><strong>Pay-Per-Click (PPC):</strong> You get paid a small amount for every click your unique link gets, regardless of whether a sale happens. This is less common for standard affiliate marketing.</p>
+                    
+                    <h3>The Money Journey:</h3>
+                    <ul>
+                        <li>Customer buys a product for $100.</li>
+                        <li>The merchant's affiliate program offers a 10% commission.</li>
+                        <li>The affiliate network tracks the sale and confirms it is valid (no fraud, within cookie window).</li>
+                        <li>The network holds the $10 commission for you.</li>
+                        <li>The network pays you, say, on a 60-day delay (this is the "payment threshold" and schedule), often after deducting a small network fee.</li>
+                        <li>You receive your $10 via PayPal, direct deposit, or check.</li>
+                    </ul>
+                    
+                    <h2>3. Common Myths vs. Reality</h2>
+                    
+                    <p>This is the most important part. The internet is full of misinformation about affiliate marketing.</p>
+                    
+                    <table class="myth-reality-table">
+                        <thead>
+                            <tr>
+                                <th>Myth</th>
+                                <th>Reality</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>"It's a get-rich-quick scheme."</td>
+                                <td>It is a real business. It requires time, effort, and strategy to build an audience and trust. Success takes months, if not years, of consistent work.</td>
+                            </tr>
+                            <tr>
+                                <td>"You need a huge audience or following to start."</td>
+                                <td>You need a targeted and engaged audience, not necessarily a huge one. A small, loyal audience that trusts your recommendations is far more valuable than a large, disinterested one.</td>
+                            </tr>
+                            <tr>
+                                <td>"It's just about posting links on social media."</td>
+                                <td>Spamming links is a fast way to get banned and make zero money. The core of affiliate marketing is adding value. You create helpful content (blog posts, videos, tutorials) and the link is a natural part of the solution you offer.</td>
+                            </tr>
+                            <tr>
+                                <td>"It's free money—you don't need a website."</td>
+                                <td>While you can use social media or YouTube, a website is your most valuable asset. You own and control it. It's your home base, your portfolio, and your storefront. Social media algorithms change; your website is forever.</td>
+                            </tr>
+                            <tr>
+                                <td>"You can promote anything and everything."</td>
+                                <td>Promoting irrelevant or low-quality products will destroy your audience's trust. The key is to be selective and only promote products you have used, trust, and are genuinely relevant to your audience's needs.</td>
+                            </tr>
+                            <tr>
+                                <td>"All you need is traffic."</td>
+                                <td>Traffic is useless without trust. 100 visitors who see you as an expert will convert far better than 10,000 random visitors who don't know you. Focus on building authority and relationships.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="key-takeaways">
+                        <h3>Class 1 Key Takeaways:</h3>
+                        <ul>
+                            <li>Affiliate marketing is a performance-based partnership where you earn a commission for referring customers.</li>
+                            <li>It works because it's a win-win-win for the merchant, customer, and you.</li>
+                            <li>It is a legitimate business, not a get-rich-quick scheme. It requires building trust and adding value for a specific audience.</li>
+                            <li>Your most powerful tool is not a link, but your genuine recommendation.</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 2,
+                title: "Understanding the Affiliate Ecosystem",
+                description: "The roles: merchants, networks, affiliates, customers. Types of affiliate programs (CPS, CPA, CPL). How commissions are tracked (cookies, links, pixels).",
+                driveId: "placeholder2", // Replace with your actual Google Drive video ID
+                content: `
+                    <h1>Class 2: Understanding the Affiliate Ecosystem</h1>
+                    
+                    <p>This class will make you fluent in the language of affiliate marketing. You will understand who does what, how programs are structured, and the crucial "behind the scenes" technology that makes it all work.</p>
+                    
+                    <h2>1. The Four Key Roles in the Ecosystem</h2>
+                    
+                    <p>Think of the affiliate ecosystem as a digital marketplace. Each player has a distinct and vital role.</p>
+                    
+                    <table class="myth-reality-table">
+                        <thead>
+                            <tr>
+                                <th>Role</th>
+                                <th>Also Known As</th>
+                                <th>Their Goal & Description</th>
+                                <th>What They Provide</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>1. The Merchant</strong></td>
+                                <td>Advertiser, Brand, Seller</td>
+                                <td>To sell their products or services and acquire new customers. They create the product, set the commission rates, and run the affiliate program.</td>
+                                <td>The product, the commission, the marketing materials (banners, links), and the terms of service.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>2. The Affiliate</strong></td>
+                                <td>Publisher, Creator, Influencer</td>
+                                <td>To earn commissions by promoting the merchant's products to a relevant audience. They create content, build trust, and make recommendations.</td>
+                                <td>Audience, traffic, content (reviews, tutorials, blogs, videos), and promotional effort.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>3. The Customer</strong></td>
+                                <td>Consumer, Buyer, User</td>
+                                <td>To find a solution to their problem or a product they need. They click an affiliate link and complete a purchase.</td>
+                                <td>The sale. They are the final piece that makes the entire system profitable for everyone.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>4. The Network</strong></td>
+                                <td>Affiliate Network, Platform</td>
+                                <td>To act as the intermediary that connects merchants and affiliates. They handle the complex parts: tracking, reporting, and payments.</td>
+                                <td>Technology (tracking software), a directory of programs, reliable payment processing, and support.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <p><strong>Important Note:</strong> Not all programs use a network. Some merchants, especially large ones like Amazon Associates, run their own in-house affiliate programs. In this case, the merchant handles the tracking and payments themselves, cutting out the network middleman.</p>
+                    
+                    <h2>2. Types of Affiliate Programs (The Compensation Models)</h2>
+                    
+                    <p>This is how you get paid. Understanding these acronyms is essential. They define what action you need to drive to earn your commission.</p>
+                    
+                    <table class="myth-reality-table">
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>Acronym</th>
+                                <th>What You Get Paid For</th>
+                                <th>Best For / Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Cost Per Sale</strong></td>
+                                <td><strong>CPS</strong></td>
+                                <td>A completed sale. This is the most common model.</td>
+                                <td><strong>Physical products, digital products, services.</strong><br><br><em>Example:</em> You earn 5% of the total cart value when someone buys a coffee maker through your link.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cost Per Action</strong></td>
+                                <td><strong>CPA</strong></td>
+                                <td>A specific, valuable action other than a sale. The "Action" is defined by the merchant.</td>
+                                <td><strong>Lead generation, service-based businesses, high-ticket items.</strong><br><br><em>Example:</em> You earn $30 for every person who signs up for a free trial of a software product through your link.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cost Per Lead</strong></td>
+                                <td><strong>CPL</strong></td>
+                                <td>A specific type of lead generation. This is a subset of CPA where the action is explicitly capturing customer information.</td>
+                                <td><strong>Industries like insurance, finance, and education where a sales team follows up on leads.</strong><br><br><em>Example:</em> You earn $15 for every person who fills out a form to get a free insurance quote via your link.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cost Per Click</strong></td>
+                                <td><strong>CPC</strong></td>
+                                <td>Simply for a click on your affiliate link, regardless of what the user does afterward.</td>
+                                <td><strong>This is very rare in modern affiliate marketing. It's more common in advertising (like Google Ads).</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <p><strong>Key Distinction:</strong> While often used interchangeably, think of it this way: CPS is for sales. CPA/CPL is for actions/leads. Your primary focus will be on CPS and CPA programs.</p>
+                    
+                    <h2>3. How Commissions Are Tracked (The Technical Magic)</h2>
+                    
+                    <p>This is the most critical technical concept to understand. If the tracking fails, you don't get paid. Here's how merchants ensure your referrals are credited to you.</p>
+                    
+                    <h3>The Affiliate Link</h3>
+                    
+                    <p>This is your unique link. It contains your special affiliate ID. It looks something like this:</p>
+                    
+                    <p><strong>https://www.merchantwebsite.com/product/?ref=youruniqueid123</strong></p>
+                    
+                    <p>Or, more commonly through a network: <strong>https://www.shareasale.com/r.cfm?u=1234&b=567890&m=12345</strong></p>
+                    
+                    <p>When a user clicks this link, the tracking process begins.</p>
+                    
+                    <h3>Cookies: The Heart of Tracking</h3>
+                    
+                    <p>When a user clicks your affiliate link, the merchant's or network's website places a small text file (a cookie) on the user's browser. This cookie contains your affiliate ID.</p>
+                    
+                    <p><strong>Cookie Duration (Cookie Window):</strong> This is the most important term. It defines how long that cookie stays on the user's browser. If the user makes a purchase within this time frame, you get the credit.</p>
+                    
+                    <p><strong>Example:</strong> Amazon's cookie lasts for 24 hours. If someone clicks your link, leaves, and comes back 12 hours later to buy, you get the commission. If they come back 25 hours later, you do not.</p>
+                    
+                    <p>Cookie windows can range from 1 day to 90 days. Longer cookie windows are highly valuable for affiliates.</p>
+                    
+                    <h3>Pixels (Tracking Pixels)</h3>
+                    
+                    <p>A pixel is a tiny, invisible 1x1 image embedded on the "thank you" or order confirmation page of the merchant's website.</p>
+                    
+                    <p><strong>Here's the full tracking flow:</strong></p>
+                    
+                    <ul>
+                        <li><strong>Click:</strong> A user clicks your unique affiliate link.</li>
+                        <li><strong>Cookie Drop:</strong> They are directed to the merchant's site, and a cookie with your ID is placed on their browser.</li>
+                        <li><strong>Purchase:</strong> The user browses and eventually makes a purchase.</li>
+                        <li><strong>Confirmation:</strong> The user lands on the "Thank You" page after paying.</li>
+                        <li><strong>Pixel Fires:</strong> The tracking pixel on that page loads and "pings" the affiliate network, saying, "A sale just happened! Check the browser for a cookie to see which affiliate should get credit."</li>
+                        <li><strong>Credit:</strong> The network reads the cookie, finds your ID, and credits your account with the commission.</li>
+                    </ul>
+                    
+                    <p>This process is almost instantaneous and entirely automated.</p>
+                    
+                    <div class="key-takeaways">
+                        <h3>Class 2 Key Takeaways:</h3>
+                        <ul>
+                            <li>The ecosystem has four players: Merchant, Affiliate, Customer, and Network.</li>
+                            <li>Affiliate programs are defined by their compensation model: CPS (for sales), CPA/CPL (for actions/leads).</li>
+                            <li>Tracking is done via a combination of your unique affiliate link, cookies (which store your ID on the user's browser for a set duration), and pixels (which confirm the sale and read the cookie).</li>
+                            <li>This knowledge allows you to look at any affiliate program and immediately understand how it works, how you get paid, and what the key terms (like cookie length) are.</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 3,
+                title: "Choosing the Right Niche",
+                description: "What makes a profitable niche. Niche research strategies. Tools for finding demand.",
+                driveId: "placeholder3", // Replace with your actual Google Drive video ID
+                content: `
+                    <h1>Class 3: Choosing the Right Niche</h1>
+                    
+                    <p>This class will guide you through the process of selecting a profitable, sustainable, and enjoyable area to build your affiliate marketing business around. A bad niche choice leads to burnout and failure. A good one sets you up for long-term success.</p>
+                    
+                    <h2>1. What Makes a Profitable Niche?</h2>
+                    
+                    <p>A "niche" is a specific, focused segment of a larger market. Instead of "fitness," a niche would be "yoga for beginners over 50." Instead of "technology," a niche would be "wireless smart home devices for renters."</p>
+                    
+                    <p>A profitable niche sits at the intersection of three key factors:</p>
+                    
+                    <h3>1. Your Interest & Knowledge (Passion):</h3>
+                    
+                    <p><strong>Why it matters:</strong> You will be spending hundreds of hours creating content, researching, and engaging with this topic. If you hate it, you will quit.</p>
+                    
+                    <p><strong>Reality Check:</strong> You don't need to be the world's leading expert, but you must have a genuine interest in learning and teaching others about it. Your authenticity will shine through and build trust.</p>
+                    
+                    <h3>2. Market Demand (Profitability):</h3>
+                    
+                    <p><strong>Why it matters:</strong> There must be a large enough audience actively searching for information and solutions within this niche.</p>
+                    
+                    <p><strong>Reality Check:</strong> People must be willing to spend money to solve a problem or fulfill a desire in this niche. High demand means more potential customers and more affiliate products to promote.</p>
+                    
+                    <h3>3. Competition & Monetization Potential (Viability):</h3>
+                    
+                    <p><strong>Why it matters:</strong> You need to be able to break into the niche and there must be valuable products to promote.</p>
+                    
+                    <p><strong>Reality Check:</strong> A niche with no competition might mean there's no money to be made. A niche with too much competition (e.g., "best credit cards") is incredibly hard to rank in as a beginner. You need a "Goldilocks" zone—healthy demand with achievable competition.</p>
+                    
+                    <p><strong>Monetization:</strong> There must be affiliate programs (CPS, CPA) available with good commissions. A niche with only low-cost physical products (e.g., "paper clips") is harder to monetize than one with digital products or services (e.g., "project management software") that often have recurring commissions.</p>
+                    
+                    <h2>2. Niche Research Strategies</h2>
+                    
+                    <p>How do you find this perfect intersection? Use these strategies to brainstorm and validate ideas.</p>
+                    
+                    <h3>Strategy 1: The Problem-Solution Approach</h3>
+                    
+                    <p>The best niches are built around solving problems. Ask yourself:</p>
+                    
+                    <ul>
+                        <li>What problems do I or people I know have?</li>
+                        <li>What are people constantly complaining about online?</li>
+                        <li>What hobbies require specific gear or knowledge?</li>
+                        <li>What products do people need guidance to choose? (This is called "commercial intent" and is gold for affiliates).</li>
+                    </ul>
+                    
+                    <p><strong>Examples:</strong> "Solving slow PC performance," "finding comfortable shoes for plantar fasciitis," "starting a balcony garden."</p>
+                    
+                    <h3>Strategy 2: The "Passion + Micro-Niche" Approach</h3>
+                    
+                    <p>Start broad and then get hyper-specific. This helps you dominate a smaller area before expanding.</p>
+                    
+                    <p><strong>Broad:</strong> Fishing → <strong>Micro-Niche:</strong> Kayak Fishing for Bass → <strong>Micro-Niche Content:</strong> "Best lightweight fishing rods for kayaks," "anchor systems for kayak anglers."</p>
+                    
+                    <p><strong>Broad:</strong> Personal Finance → <strong>Micro-Niche:</strong> Digging Out of Student Loan Debt → <strong>Micro-Niche Content:</strong> "Income-driven repayment plans explained," "side hustles for teachers with debt."</p>
+                    
+                    <h3>Strategy 3: Competitor & Market Analysis</h3>
+                    
+                    <p><strong>Google Search:</strong> Type in potential niche ideas. Look at the websites that rank on the first page. Are they big corporations (.com) or are they individual bloggers? A mix of bloggers is a good sign—it means a beginner can compete.</p>
+                    
+                    <p><strong>Amazon & Online Stores:</strong> Browse categories on big e-commerce sites. See what products have a lot of reviews. This indicates high sales volume and a active market.</p>
+                    
+                    <p><strong>Social Media & Forums:</strong> Go to Reddit, Facebook Groups, Quora, and niche forums. See what questions people are asking. This is a goldmine for understanding audience pain points.</p>
+                    
+                    <h2>3. Tools for Finding Demand</h2>
+                    
+                    <p>These tools provide concrete data to back up your niche ideas. You can start with free methods before investing in paid tools.</p>
+                    
+                    <h3>Free Methods & Tools:</h3>
+                    
+                    <p><strong>Google Keyword Planner:</strong> (Requires a free Google Ads account) This is the industry standard for estimating search volume. Type in key phrases for your niche (e.g., "best vacuum for pet hair"). It won't give exact numbers without running ads, but it will show you high, medium, or low search volume.</p>
+                    
+                    <p><strong>Google Trends:</strong> (free) Perfect for spotting trends and seasonality. Compare different niche terms. See if interest is growing, stable, or declining over time. Is "air fryer recipes" more popular than "instant pot recipes"?</p>
+                    
+                    <p><strong>Amazon Best Sellers / Movers & Shakers:</strong> (free) This shows you what products are actually selling right now. It's direct proof of consumer demand and spending.</p>
+                    
+                    <p><strong>AnswerThePublic:</strong> (free with limits) Provides a visual map of questions people are asking about a topic. Incredible for content ideas and understanding searcher intent.</p>
+                    
+                    <h3>Paid Tools (Highly Recommended for Serious Research):</h3>
+                    
+                    <p><strong>Ahrefs / Semrush:</strong> These are all-in-one SEO suites. Their keyword research tools are unparalleled. You can see:</p>
+                    
+                    <ul>
+                        <li>Exact monthly search volumes.</li>
+                        <li>Keyword Difficulty (KD) scores that estimate how hard it would be to rank on Google's first page for that term. Aim for keywords with lower KD scores as a beginner.</li>
+                        <li>Related keywords you never would have thought of.</li>
+                    </ul>
+                    
+                    <p><strong>Keywords Everywhere:</strong> (Freemium) A browser add-on that shows search volume and cost-per-click data directly on Google Search and YouTube search results. It's an affordable way to get data everywhere you look.</p>
+                    
+                    <div class="key-takeaways">
+                        <h3>Class 3 Key Takeaways:</h3>
+                        <ul>
+                            <li>Your niche must be a combination of Your Passion, Market Demand, and Monetization Potential.</li>
+                            <li>Don't just pick a broad topic. Drill down into a specific micro-niche where you can establish authority.</li>
+                            <li>Validate your ideas with data. Use free tools like Google Keyword Planner and Trends to confirm people are actually searching for your niche topics before you invest time.</li>
+                            <li>Think like a problem-solver. The best affiliate content helps people make a decision or solve a specific issue.</li>
+                            <li><strong>Your assignment:</strong> Brainstorm 3-5 niche ideas and run them through the free tools listed above. Look for that sweet spot where your interests meet proven demand.</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 4,
+                title: "Finding & Joining Affiliate Programs",
+                description: "Top affiliate networks (local & international). How to apply and get approved. Red flags to avoid (scammy programs).",
+                driveId: "placeholder4", // Replace with your actual Google Drive video ID
+                content: `
+                    <h1>Class 4: Finding & Joining Affiliate Programs</h1>
+                    
+                    <p>This class will equip you with the strategies to find high-quality, legitimate affiliate programs for your niche and guide you through the process of getting approved.</p>
+                    
+                    <h2>1. Where to Find Affiliate Programs: Networks & Direct Programs</h2>
+                    
+                    <p>There are two main avenues to find programs: through large affiliate networks or by applying directly to a merchant.</p>
+                    
+                    <h3>A. Major Affiliate Networks (The Supermarkets)</h3>
+                    
+                    <p>Networks host thousands of affiliate programs from various merchants in one place. This is the easiest way to find multiple programs and manage them from a single dashboard.</p>
+                    
+                    <h3>Top International Networks:</h3>
+                    
+                    <p><strong>ShareASale:</strong> A massive, beginner-friendly network. Excellent for physical products, digital goods, and services across countless niches. Highly recommended to start here.</p>
+                    
+                    <p><strong>CJ Affiliate (formerly Commission Junction):</strong> One of the largest and oldest networks. Features many large, well-known brands. Can have stricter approval processes.</p>
+                    
+                    <p><strong>Impact.com:</strong> A modern platform popular with larger tech, SaaS (Software as a Service), and subscription-based companies. Known for its advanced tracking and reporting.</p>
+                    
+                    <p><strong>Rakuten Advertising:</strong> Another giant, strong in retail, fashion, and lifestyle niches.</p>
+                    
+                    <p><strong>Amazon Associates:</strong> The world's largest in-house program. While not a network, it's a must-join for almost any niche due to the sheer number of products. Note: Commissions are typically lower than niche-specific programs.</p>
+                    
+                    <h3>Local & Regional Networks:</h3>
+                    
+                    <p>Your local country will likely have its own networks focused on local brands. A quick search for "[your country] affiliate network" (e.g., "Australia affiliate network") will yield results.</p>
+                    
+                    <p><strong>Example:</strong> Webgains and Awin have a strong presence in many European countries.</p>
+                    
+                    <h3>B. Direct / In-House Affiliate Programs (The Boutique Stores)</h3>
+                    
+                    <p>Many companies, especially in competitive digital niches, run their own programs. They often offer higher commissions and better support.</p>
+                    
+                    <h3>How to find them:</h3>
+                    
+                    <p><strong>Google Search:</strong> This is the most effective method. Search for:</p>
+                    
+                    <ul>
+                        <li>"[Your Niche] affiliate program" (e.g., "yoga mats affiliate program")</li>
+                        <li>"[Brand Name] affiliate program" (e.g., "Skillshare affiliate program")</li>
+                        <li>"[Product Name] affiliate"</li>
+                    </ul>
+                    
+                    <p><strong>Footer Links:</strong> On websites you admire in your niche, scroll all the way down to the footer. Often, you'll find a link that says "Affiliates," "Partners," or "Referral Program."</p>
+                    
+                    <h2>2. How to Apply and Get Approved</h2>
+                    
+                    <p>Your application is your first impression. Merchants and networks want to avoid spammers and ensure you'll represent their brand well.</p>
+                    
+                    <h3>Before You Apply:</h3>
+                    
+                    <p><strong>Have a Platform Ready:</strong> You must have a live website, YouTube channel, or established social media profile. An application with a "site under construction" will almost always be rejected.</p>
+                    
+                    <p><strong>Understand Their Product:</strong> Briefly look at their website. You should have a basic idea of what they sell.</p>
+                    
+                    <h3>Filling Out the Application:</h3>
+                    
+                    <p><strong>Website URL:</strong> Provide the correct address.</p>
+                    
+                    <p><strong>Website Description:</strong> Be clear and professional. Describe your niche, your target audience, and the type of content you create (or plan to create).</p>
+                    
+                    <p><strong>Good Example:</strong> "My site provides detailed reviews and beginner guides for aspiring home gardeners, focusing on small-space and container gardening techniques."</p>
+                    
+                    <p><strong>Bad Example:</strong> "I make money online."</p>
+                    
+                    <p><strong>Traffic Stats:</strong> Be honest. If you're new, say "New site, currently growing my audience." It's better than exaggerating.</p>
+                    
+                    <p><strong>Promotional Methods:</strong> Explain how you will promote them. Will you write reviews? Create tutorial videos? Mention them in a newsletter? This shows you have a plan.</p>
+                    
+                    <h3>Why You Might Get Rejected & What to Do:</h3>
+                    
+                    <p><strong>Reason:</strong> "Not enough traffic" or "site under construction."</p>
+                    <p><strong>Solution:</strong> Keep creating quality content for 1-2 months to build up your site, then re-apply. Your site should have 10-15 good articles or a handful of videos before you apply.</p>
+                    
+                    <p><strong>Reason:</strong> Your content quality is low (e.g., spun, stolen, or very thin content).</p>
+                    <p><strong>Solution:</strong> Improve your site's content before applying elsewhere.</p>
+                    
+                    <p><strong>Reason:</strong> Your niche isn't relevant.</p>
+                    <p><strong>Solution:</strong> Only apply to programs that are a genuine fit.</p>
+                    
+                    <h2>3. Red Flags to Avoid (Scammy Programs)</h2>
+                    
+                    <p>Not all affiliate programs are created equal. Avoid these red flags to protect your time, your audience's trust, and your earnings.</p>
+                    
+                    <table class="myth-reality-table">
+                        <thead>
+                            <tr>
+                                <th>Red Flag</th>
+                                <th>Why It's Bad</th>
+                                <th>What to Do</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>🚩 <strong>No Physical Address or Contact Info</strong></td>
+                                <td>A complete lack of transparency. It could be a scam that will never pay you.</td>
+                                <td>Avoid entirely. Legitimate businesses have contact information.</td>
+                            </tr>
+                            <tr>
+                                <td>🚩 <strong>Unrealistically High Commissions</strong></td>
+                                <td>If it sounds too good to be true, it is. (e.g., "$500 per click!"). Often a lure for a scam or the product is extremely overpriced/low quality.</td>
+                                <td>Be extremely skeptical. Research the product's actual market value.</td>
+                            </tr>
+                            <tr>
+                                <td>🚩 <strong>They Ask You to Pay to Join</strong></td>
+                                <td>A legitimate affiliate program never charges an application or membership fee. This is a classic scam.</td>
+                                <td>Run away. Never pay to join an affiliate program.</td>
+                            </tr>
+                            <tr>
+                                <td>🚩 <strong>Shady or Missing Terms of Service (TOS)</strong></td>
+                                <td>The TOS should be clear on payment terms, cookie duration, and prohibited practices. If it's vague or non-existent, they can change the rules or withhold payment at any time.</td>
+                                <td>Read the TOS carefully. If it's unclear or missing, avoid the program.</td>
+                            </tr>
+                            <tr>
+                                <td>🚩 <strong>Poor or Non-Existent Tracking</strong></td>
+                                <td>The program doesn't provide a clear dashboard to see your clicks, conversions, and earnings. You have no way to verify if you're being paid correctly.</td>
+                                <td>Stick to reputable networks or well-known direct programs with proven tracking systems.</td>
+                            </tr>
+                            <tr>
+                                <td>🚩 <strong>Negative Reviews from Other Affiliates</strong></td>
+                                <td>A quick search reveals that other affiliates complain about not getting paid or the program shutting down unexpectedly.</td>
+                                <td>Search for "[Program Name] affiliate reviews" before joining.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="key-takeaways">
+                        <h3>Class 4 Key Takeaways:</h3>
+                        <ul>
+                            <li>Start your search on large networks like ShareASale and via Google for direct programs.</li>
+                            <li>Before applying, ensure you have a live, content-rich website or platform that is relevant to the program.</li>
+                            <li>Fill out applications professionally, clearly describing your audience and how you plan to promote their products.</li>
+                            <li>Vigilantly avoid red flags. Never pay to join a program, and always research a program's reputation beforehand.</li>
+                            <li><strong>Your task now:</strong> Make a list of 10-15 potential affiliate programs within your chosen niche using the methods above. Check them for red flags and then start applying to the best ones.</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 5,
+                title: "Understanding Affiliate Links & Tracking",
+                description: "How affiliate links are structured. Using tracking IDs. Shortening & managing links safely.",
+                driveId: "placeholder5", // Replace with your actual Google Drive video ID
+                content: `
+                    <h1>Class 5: Understanding Affiliate Links & Tracking</h1>
+                    
+                    <p>This class will make you an expert in the structure, use, and management of your affiliate links. Proper link handling is essential for maximizing your earnings and maintaining a professional, trustworthy presence.</p>
+                    
+                    <h2>1. How Affiliate Links Are Structured</h2>
+                    
+                    <p>Let's break down the anatomy of a typical affiliate link. Understanding this demystifies the entire process.</p>
+                    
+                    <p>A standard affiliate link is just a normal URL with extra parameters appended to it. These parameters contain your unique identifier.</p>
+                    
+                    <h3>Basic Structure:</h3>
+                    <p><strong>https://www.merchantwebsite.com/?affiliate_id=12345&tracking_id=yourname</strong></p>
+                    
+                    <p><strong>Base URL:</strong> https://www.merchantwebsite.com/ - This is the standard address for the merchant's website.</p>
+                    
+                    <p><strong>? or &:</strong> The question mark separates the base URL from the tracking parameters. An ampersand is used to add multiple parameters.</p>
+                    
+                    <p><strong>Parameter:</strong> affiliate_id=12345 - This is a key-value pair. The parameter (affiliate_id) is set to a value (12345) that uniquely identifies you to the merchant.</p>
+                    
+                    <p><strong>Additional Parameter:</strong> &tracking_id=yourname - Some networks allow you to add a second parameter for more granular tracking (e.g., to track which specific blog post or social media platform a click came from).</p>
+                    
+                    <h3>Example from an Affiliate Network:</h3>
+                    <p><strong>https://www.shareasale.com/r.cfm?u=9284&b=671922&m=54321&afftrack=guide_post</strong></p>
+                    
+                    <ul>
+                        <li><strong>u=9284</strong> = Your unique network ID.</li>
+                        <li><strong>b=671922</strong> = The specific merchant's ID within the network.</li>
+                        <li><strong>m=54321</strong> = The specific product ID you're promoting.</li>
+                        <li><strong>afftrack=guide_post</strong> = Your custom tracking ID (more on this next).</li>
+                    </ul>
+                    
+                    <h3>The "Pretty" Rewritten Link:</h3>
+                    <p>Many programs and networks offer "pretty" or "vanity" URLs to make links more presentable. They all redirect to the ugly tracking link above.</p>
+                    
+                    <p><strong>Original:</strong> https://www.merchantwebsite.com/?affiliate_id=12345</p>
+                    <p><strong>Pretty:</strong> https://www.merchantwebsite.com/partner/yourname</p>
+                    
+                    <p>They function identically. The pretty version is just more user-friendly.</p>
+                    
+                    <h2>2. Using Tracking IDs (The Superpower of Data)</h2>
+                    
+                    <p>This is an advanced but critical practice. Most networks allow you to append a custom tracking ID to your links. This lets you track performance within your own accounts, far beyond what the network's basic dashboard shows.</p>
+                    
+                    <h3>Why Use Tracking IDs?</h3>
+                    <p>They answer specific questions about your marketing efforts:</p>
+                    
+                    <ul>
+                        <li>Which specific blog post is generating the most sales?</li>
+                        <li>Is my YouTube description or my Instagram bio driving more conversions?</li>
+                        <li>Which newsletter issue performed the best last month?</li>
+                        <li>Does a particular call-to-action work better than others?</li>
+                    </ul>
+                    
+                    <h3>How to Use Them:</h3>
+                    <p>You add a simple parameter to the end of any affiliate link. Common parameter names are <strong>tag</strong>, <strong>afftrack</strong>, <strong>source</strong>, or <strong>ref</strong>.</p>
+                    
+                    <h3>Example:</h3>
+                    <p>You write two blog posts about coffee makers. You want to know which one is more effective.</p>
+                    
+                    <p><strong>Your standard affiliate link:</strong> https://coffeemerchant.com/?ref=yourid123</p>
+                    
+                    <p><strong>Link for Post #1:</strong> https://coffeemerchant.com/?ref=yourid123&afftrack=best-coffee-makers-post</p>
+                    
+                    <p><strong>Link for Post #2:</strong> https://coffeemerchant.com/?ref=yourid123&afftrack=under-100-dollars-post</p>
+                    
+                    <p>Now, in your affiliate dashboard, you'll see sales that include these tracking IDs, allowing you to directly attribute success to a specific piece of content.</p>
+                    
+                    <h2>3. Shortening & Managing Links Safely</h2>
+                    
+                    <p>You should never post long, ugly affiliate links directly. It looks spammy and erodes trust. You need to manage them properly.</p>
+                    
+                    <h3>The Golden Rule: Use a Link Cloaker/Manager</h3>
+                    
+                    <p>A link cloaker (or manager) does two things:</p>
+                    
+                    <ul>
+                        <li>Shortens your long affiliate link into a clean, memorable URL.</li>
+                        <li>Hides the affiliate link behind a redirect on your own domain, protecting it from being changed or broken.</li>
+                    </ul>
+                    
+                    <h3>Why this is non-negotiable:</h3>
+                    
+                    <p><strong>Professionalism:</strong> A link like yoursite.com/recommends/coffee looks infinitely more professional than a long string of gibberish.</p>
+                    
+                    <p><strong>Trust:</strong> Users can see where the link is going (to your domain) before the redirect. They are more likely to click.</p>
+                    
+                    <p><strong>Control:</strong> If an affiliate program changes your link or you switch to a new network, you only have to update the destination in your link manager. Every link you've ever posted online will automatically update. This saves you from a nightmare of broken links.</p>
+                    
+                    <p><strong>Safety:</strong> It prevents "cookie stripping," where some browsers or security software might remove your affiliate ID from the URL before the user reaches the merchant site.</p>
+                    
+                    <h3>How to Do It (Safely):</h3>
+                    
+                    <p><strong>Step 1: Get a Domain</strong></p>
+                    <p>Purchase a short, brandable domain specifically for this purpose (e.g., mybrand.io or go-mybrand.com).</p>
+                    
+                    <p><strong>Step 2: Use a Link Management Plugin or Service</strong></p>
+                    
+                    <p><strong>For WordPress Websites:</strong> Use a plugin like Pretty Links or ThirstyAffiliates. These are industry standards. They allow you to create cloaked links like yoursite.com/reco/coffee that redirect to your long affiliate link.</p>
+                    
+                    <p><strong>For Everyone (or for Social Media):</strong> Use a service like ClickMagick or Voluum. These are powerful paid tools that offer incredible tracking features beyond just shortening. For beginners, a WordPress plugin is sufficient.</p>
+                    
+                    <h3>🚫 What NOT to Do:</h3>
+                    
+                    <p><strong>Do NOT use free public shorteners like Bitly or TinyURL without caution.</strong></p>
+                    
+                    <p><strong>Reason:</strong> They can be disabled for violating terms of service (as affiliate links are often considered "commercial" use).</p>
+                    
+                    <p><strong>Reason:</strong> You have no control. If the service shuts down, all your links break.</p>
+                    
+                    <p><strong>Reason:</strong> They don't offer the same level of management and updating features.</p>
+                    
+                    <div class="key-takeaways">
+                        <h3>Class 5 Key Takeaways:</h3>
+                        <ul>
+                            <li>Understand the structure of your affiliate links. They are just standard URLs with your unique ID added as a parameter.</li>
+                            <li>Use custom tracking IDs (afftrack=) on your links to gather crucial data on what content and strategies are working best.</li>
+                            <li>Never post raw affiliate links. Always shorten and cloak them using a professional tool like a WordPress link management plugin or a dedicated service like ClickMagick.</li>
+                            <li>Use your own domain for cloaking to maintain control, professionalism, and to future-proof all the links you share online.</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 6,
+                title: "Building Your Online Presence",
+                description: "Creating a simple website or landing page. Leveraging blogs, TikTok, YouTube, or Instagram. Domain & hosting basics (if needed).",
+                driveId: "placeholder6", // Replace with your actual Google Drive video ID
+                content: `
+                    <h1>Class 6: Building Your Online Presence</h1>
+                    
+                    <p>This class is about choosing and establishing your "home base" on the internet. This is the asset you own and control, where you will build trust and authority, and from which you will share your affiliate links.</p>
+                    
+                    <h2>1. Your "Home Base" vs. "Outposts" Strategy</h2>
+                    
+                    <p>Before you build anything, understand this crucial distinction:</p>
+                    
+                    <p><strong>Your Home Base (Non-Negotiable):</strong> This is a platform you own and control. Typically, this is a website (a blog). You own the domain and hosting. No one can shut it down or change the rules on you. This is where you create your deepest, most valuable content (reviews, guides, tutorials) and where you aim to drive all traffic to.</p>
+                    
+                    <p><strong>Your Outposts (Optional but Recommended):</strong> These are social media platforms you do not own (YouTube, Instagram, TikTok, Twitter, Pinterest). You are building on borrowed land. Their algorithms can change, and accounts can be banned. They are for awareness, engagement, and driving traffic back to your Home Base.</p>
+                    
+                    <p><strong>The Strategy:</strong> Use your outposts to attract an audience and then direct them to your website, where they can read a full review, get more detailed information, and click on your affiliate links.</p>
+                    
+                    <h2>2. Creating Your Home Base: A Simple Website/Blog</h2>
+                    
+                    <p>A website is the most powerful and recommended home base for affiliate marketers. It's your resume, your library, and your storefront all in one.</p>
+                    
+                    <h3>Why a Website is Best:</h3>
+                    
+                    <p><strong>Ownership & Control:</strong> You make the rules.</p>
+                    
+                    <p><strong>SEO & Passive Traffic:</strong> Google can index your pages and send you free traffic for years.</p>
+                    
+                    <p><strong>Credibility & Trust:</strong> A professional website establishes you as an authority.</p>
+                    
+                    <p><strong>Email List Building:</strong> You can capture visitor emails, which is your most valuable asset (more on this in a future class).</p>
+                    
+                    <h3>Domain & Hosting Basics</h3>
+                    
+                    <p><strong>Domain Name:</strong> Your website's address (e.g., www.YourNicheExpert.com).</p>
+                    
+                    <p><strong>How to Choose:</strong> Make it brandable, easy to spell, and memorable. Use a .com if possible. Ideally, it should hint at your niche.</p>
+                    
+                    <p><strong>Web Hosting:</strong> The service that stores your website's files and makes it accessible on the internet. It's like renting space on a computer that is always on.</p>
+                    
+                    <p><strong>Recommendation for Beginners:</strong> Start with a cheap, reliable shared hosting plan from a provider like Namecheap or Hostinger. They often include a free domain for the first year and are very beginner-friendly.</p>
+                    
+                    <h3>How to Get Started:</h3>
+                    
+                    <ul>
+                        <li>Choose a domain name.</li>
+                        <li>Sign up for a hosting plan.</li>
+                        <li>Install WordPress (most hosts offer a 1-click install). WordPress powers over 40% of all websites and is the ideal platform for affiliates due to its flexibility and vast ecosystem of plugins.</li>
+                        <li>Choose a simple, fast-loading theme (e.g., Kadence, Astra, GeneratePress) and start creating pages.</li>
+                    </ul>
+                    
+                    <h2>3. Leveraging Outposts: Blogs, TikTok, YouTube, Instagram</h2>
+                    
+                    <p>You do not need to be on every platform. Choose 1-2 that best fit your skills and niche audience.</p>
+                    
+                    <table class="myth-reality-table">
+                        <thead>
+                            <tr>
+                                <th>Platform</th>
+                                <th>Best For / Content Style</th>
+                                <th>How It Drives Affiliate Sales</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Blog/Website (Home Base)</strong></td>
+                                <td>In-depth, evergreen content. Long-form product reviews, "best X" lists, detailed how-to guides, and tutorials.</td>
+                                <td>The primary place for links. You embed affiliate links naturally within your informative content.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>YouTube</strong></td>
+                                <td>Visual tutorials, reviews, and demonstrations. Showing a product in action is incredibly powerful.</td>
+                                <td>Use affiliate links in the video description. Mention "Link in the description below!" in your video.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>TikTok / Instagram Reels</strong></td>
+                                <td>Short, engaging, trendy videos. Quick tips, behind-the-scenes, problem/solution clips.</td>
+                                <td>Use the Link in Bio. Your caption should say "Click the link in my bio for more!" since you can't place clickable links in video descriptions.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Instagram (Posts/Stories)</strong></td>
+                                <td>Beautiful photos, quick polls, Q&A. Building a community and personal connection.</td>
+                                <td>Swipe-Up feature (if you have 10k+ followers) or constantly direct people to your "Link in Bio".</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Pinterest</strong></td>
+                                <td>Visual inspiration, infographics, step-by-step guides. Great for niches like home decor, food, fitness, crafts.</td>
+                                <td>Every "Pin" should link back to a relevant blog post on your website (your home base) where your affiliate links are.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h3>Key Concept: The "Link in Bio" Solution</h3>
+                    
+                    <p>For platforms that don't allow clickable links in posts (Instagram, TikTok), you use a service like Linktree, Beacons.ai, or Your own WordPress site to create a "link in bio" page. This is a single page that houses links to your latest blog posts, YouTube videos, and top affiliate recommendations.</p>
+                    
+                    <h2>4. A Simple Action Plan to Start</h2>
+                    
+                    <p><strong>Secure Your Assets:</strong> Choose and buy your domain name and a hosting plan. Set up a basic WordPress site. This is your #1 priority.</p>
+                    
+                    <p><strong>Create Essential Pages:</strong> Create an "About Me" page (builds trust) and a "Contact" page.</p>
+                    
+                    <p><strong>Write Your First Piece of "Pillar Content":</strong> This is a comprehensive, top-level article on a core topic in your niche. E.g., "The Ultimate Beginner's Guide to [Your Niche]" or "The 5 Best [Product Type] for [Your Audience] in 2024".</p>
+                    
+                    <p><strong>Choose ONE Social Media Outpost:</strong> Based on the table above, pick the one platform you enjoy most. Create a profile and put your website link in the bio.</p>
+                    
+                    <p><strong>Repurpose:</strong> Turn your pillar blog post into 5-10 smaller pieces of content for your social media outpost. For example, one tip from your guide can become a TikTok video, an Instagram post, and a Pinterest pin, all driving traffic back to the full guide on your website.</p>
+                    
+                    <div class="key-takeaways">
+                        <h3>Class 6 Key Takeaways:</h3>
+                        <ul>
+                            <li>Your website is your owned Home Base. Social media are Outposts used to drive traffic back to it.</li>
+                            <li>Start simple. A basic WordPress blog on affordable shared hosting is all you need to begin.</li>
+                            <li>You don't need to be everywhere. Choose 1-2 social media platforms that fit your content style and focus on them.</li>
+                            <li>Always have a call-to-action (CTA). On social media, always tell people what to do next: "Read the full review on my blog!" or "Click the link in my bio to see my top picks!"</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 7,
+                title: "Content that Converts",
+                description: "Writing persuasive product reviews. How to structure content for sales. Importance of trust & authenticity.",
+                driveId: "placeholder7", // Replace with your actual Google Drive video ID
+                content: `
+                    <h1>Class 7: Content that Converts</h1>
+                    
+                    <p>This class moves beyond basic writing. We will focus on the psychology and structure of content designed specifically to build trust, demonstrate value, and guide the reader naturally toward a purchase.</p>
+                    
+                    <h2>1. The Anatomy of a Persuasive Product Review</h2>
+                    
+                    <p>A product review is your most powerful tool. It's not just your opinion; it's a resource that helps a hesitant buyer make a decision. Here's how to structure it:</p>
+                    
+                    <h3>1. The Headline (The Hook):</h3>
+                    
+                    <p><strong>Goal:</strong> Capture search intent and promise a solution.</p>
+                    
+                    <p><strong>Formula:</strong> [Product Name] Review [Year]: An Honest Look After [Time Period of Use]</p>
+                    
+                    <p><strong>Example:</strong> "NutriBullet Pro 900 Review: My 6-Month Test (Pros, Cons & Who It's For)"</p>
+                    
+                    <p><strong>Why it works:</strong> It's specific, includes a timeframe (builds credibility), and sets expectations.</p>
+                    
+                    <h3>2. Introduction (The Problem & Promise):</h3>
+                    
+                    <p><strong>Goal:</strong> Connect with the reader's problem and state the purpose of the review.</p>
+                    
+                    <p><strong>What to include:</strong></p>
+                    
+                    <ul>
+                        <li><strong>Identify the reader's pain point.</strong> "Struggling to make healthy breakfasts on a busy morning?"</li>
+                        <li><strong>Introduce the product as a potential solution.</strong> "I was too, until I tested the NutriBullet Pro."</li>
+                        <li><strong>State your credibility.</strong> "I've been using it daily for the past 6 months, and here's my completely honest take."</li>
+                        <li><strong>Preview the review.</strong> "I'll break down the pros, cons, and see if it's really worth your money."</li>
+                    </ul>
+                    
+                    <h3>3. The Review Body (The Evidence):</h3>
+                    <p>This is the core. It must be structured and factual.</p>
+                    
+                    <p><strong>Key Features & Benefits:</strong> Don't just list specs. Explain what they mean for the user.</p>
+                    
+                    <p><strong>Spec:</strong> "900-watt motor."</p>
+                    <p><strong>Benefit:</strong> "The 900-watt motor crushes frozen fruit and ice with ease, meaning you get a smooth, creamy smoothie in under 60 seconds—no chunks."</p>
+                    
+                    <p><strong>Your Hands-On Experience:</strong> This is what separates you from the product description. Tell a story.</p>
+                    
+                    <p><em>"I tried making a peanut butter smoothie, and it handled the thick consistency without straining. However, the base did get warm to the touch after two consecutive batches."</em></p>
+                    
+                    <p><strong>Pros and Cons List:</strong> Use a simple table or bullet points. This builds immense trust by showing objectivity. Be critical! No product is perfect.</p>
+                    
+                    <p><strong>Who It's For / Who It's NOT For:</strong> This is a conversion superpower. It manages expectations and shows you truly understand different audience needs.</p>
+                    
+                    <p><strong>For:</strong> "Busy professionals, singles or couples, health enthusiasts on a budget."</p>
+                    <p><strong>Not For:</strong> "Large families (the cup is too small), those who need ultra-quiet appliances, anyone who already owns a high-end blender."</p>
+                    
+                    <h3>4. The Verdict & Conclusion (The Recommendation):</h3>
+                    
+                    <p><strong>Goal:</strong> Summarize your findings and give a clear, confident recommendation.</p>
+                    
+                    <ul>
+                        <li>Answer the question: "Is [Product] worth it?"</li>
+                        <li>Reinforce your honest opinion. "Despite the small cons, the price-to-performance ratio is outstanding. For most people, it's a resounding YES."</li>
+                    </ul>
+                    
+                    <h3>5. The Call to Action (The Seamless Transition):</h3>
+                    
+                    <p><strong>Goal:</strong> Guide the reader to the next step without being pushy.</p>
+                    
+                    <p><strong>How to do it:</strong> "If my review helped you and you're ready to see the latest price, you can check it out on Amazon here."</p>
+                    
+                    <p>Then, you provide your affiliate link. The link is the logical conclusion to your helpful resource.</p>
+                    
+                    <h2>2. How to Structure Content for Sales (The AIDA Model)</h2>
+                    
+                    <p>Use this classic marketing framework to structure your entire piece of content, whether it's a review, a blog post, or a video script.</p>
+                    
+                    <p><strong>A - Attention (Headline & Intro):</strong> Grab them with a relatable problem or a compelling question.</p>
+                    
+                    <p><strong>I - Interest (Features & Benefits):</strong> Build interest by explaining how the product works and the benefits it offers. Use images and videos here.</p>
+                    
+                    <p><strong>D - Desire (Experience & Social Proof):</strong> Create desire by showing the product in action (your experience) and incorporating reviews from other users (e.g., "People on Amazon love this for..."). Help them imagine their life improved by the product.</p>
+                    
+                    <p><strong>A - Action (Verdict & CTA):</strong> Lead them to take action with a clear, confident recommendation and an easy-to-follow link.</p>
+                    
+                    <h2>3. The Supreme Importance of Trust & Authenticity</h2>
+                    
+                    <p>This is not a "nice-to-have"; it is the entire foundation of your business. Without trust, you will not make a single sale.</p>
+                    
+                    <h3>How to Build Trust and Be Authentic:</h3>
+                    
+                    <p><strong>Always Be Honest:</strong> Never shy away from pointing out flaws. Critiquing a product makes your praise infinitely more believable. Your audience will thank you for saving them from a bad purchase, and they will trust you more for the next one.</p>
+                    
+                    <p><strong>Only Promote What You Believe In:</strong> Your reputation is your most valuable asset. If you wouldn't buy it yourself or recommend it to your family, don't promote it for a commission.</p>
+                    
+                    <p><strong>Disclose, Disclose, Disclose:</strong> Be upfront and transparent about your affiliate relationships. A simple disclaimer at the top of a post or in a video description is required by law (FTC) and builds trust. "This post may contain affiliate links, which means I may receive a commission if you make a purchase using these links."</p>
+                    
+                    <p><strong>Prioritize Help Over Hype:</strong> Your primary goal is to help the user make the best decision for them, even if that means sometimes recommending a competitor's product or telling them not to buy anything. This long-term thinking builds a loyal audience.</p>
+                    
+                    <p><strong>Use Your Own Media:</strong> Whenever possible, use your own photos and videos. A grainy, real-world photo of you using the product is more powerful than a perfect stock image. It proves you actually have it.</p>
+                    
+                    <div class="key-takeaways">
+                        <h3>Class 7 Key Takeaways:</h3>
+                        <ul>
+                            <li>Structure your reviews logically: Headline → Intro → Features/Benefits → Personal Experience → Pros/Cons → Verdict → CTA.</li>
+                            <li>Write to one person. Use "you" and "I" to create a conversation. Focus on benefits, not just features.</li>
+                            <li>The AIDA model is a timeless framework for crafting persuasive content.</li>
+                            <li>Trust is your currency. Build it through honesty, transparency, and a genuine desire to help your audience. Your authenticity is what will ultimately convince people to click your link over someone else's.</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 8,
+                title: "Traffic Generation Strategies (Free)",
+                description: "SEO basics for affiliate sites. Social media hacks (TikTok, Reels, Shorts). Using forums & communities for exposure.",
+                driveId: "placeholder8", // Replace with your actual Google Drive video ID
+                content: `
+                    <h1>Class 8: Traffic Generation Strategies (Free)</h1>
+                    
+                    <p>This class covers the three pillars of free traffic generation: mastering the basics of SEO for long-term results, leveraging short-form video for viral potential, and engaging in communities to build genuine authority.</p>
+                    
+                    <h2>1. SEO Basics for Affiliate Sites (The Long Game)</h2>
+                    
+                    <p>Search Engine Optimization (SEO) is the process of making your content attractive to Google. It's the most powerful free traffic source because it brings people who are actively searching for your topic.</p>
+                    
+                    <h3>The Core Principles:</h3>
+                    
+                    <h3>A. Keyword Research (The Foundation):</h3>
+                    
+                    <p><strong>What it is:</strong> Finding the exact words and phrases your audience types into Google.</p>
+                    
+                    <p><strong>How to do it:</strong> Use the free tools from Class 3 (Google Keyword Planner, AnswerThePublic). Target "long-tail keywords"—specific, longer phrases with lower competition.</p>
+                    
+                    <p><strong>Example:</strong> Instead of competing for "headphones" (highly competitive), target "best wireless headphones for running in rain" (specific, high intent).</p>
+                    
+                    <p><strong>Intent is King:</strong> Understand why someone is searching. Are they looking to buy ("buy Sony WH-1000XM5") or just to learn ("how to connect headphones to PC")? Your content must match the intent.</p>
+                    
+                    <h3>B. On-Page SEO (Optimizing Your Content):</h3>
+                    
+                    <p><strong>Title Tag:</strong> This is the blue clickable link on Google. It must contain your main keyword and be compelling (60 characters max).</p>
+                    
+                    <p><strong>Meta Description:</strong> The short blurb under the title. It should contain the keyword and act as an ad for your page (155 characters max).</p>
+                    
+                    <p><strong>Headings (H1, H2, H3):</strong> Use your main keyword in the H1 (your title). Use related keywords in H2 and H3 subheadings to structure your content. This helps Google understand your page.</p>
+                    
+                    <p><strong>Content Quality:</strong> Create the best answer to the search query. Google rewards comprehensive, helpful content. Your article should be more detailed and useful than the current top results.</p>
+                    
+                    <p><strong>Internal Linking:</strong> Link to your other relevant blog posts. This keeps users on your site longer and shows Google the depth of your site's expertise.</p>
+                    
+                    <h3>C. Technical SEO (The Basics):</h3>
+                    
+                    <p><strong>Site Speed:</strong> A fast-loading site is crucial. Use a lightweight theme and optimize images.</p>
+                    
+                    <p><strong>Mobile-Friendly:</strong> Your site must look and work perfectly on phones.</p>
+                    
+                    <p><strong>SSL Certificate:</strong> Your URL should start with https:// (the 's' stands for secure). This is non-negotiable.</p>
+                    
+                    <p><strong>Mindset:</strong> SEO is a long-term strategy. It can take 3-6 months to see significant traffic, but the results are passive and cumulative.</p>
+                    
+                    <h2>2. Social Media Hacks (TikTok, Reels, Shorts) (The Short Game)</h2>
+                    
+                    <p>Short-form video is incredible for rapid exposure and driving traffic to your home base. The algorithm favors new, engaging creators.</p>
+                    
+                    <h3>The Strategy: Provide Value in Seconds</h3>
+                    
+                    <table class="myth-reality-table">
+                        <thead>
+                            <tr>
+                                <th>Hack</th>
+                                <th>How It Works</th>
+                                <th>Example for a "Home Gym" Niche</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>The Problem/Solution</strong></td>
+                                <td>Show a common problem and how a product fixes it.</td>
+                                <td>Video text: "Annoyed by dumbbell clutter?" Show a messy rack, then a neat storage solution with your affiliate link in bio.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>The "Why I Bought"</strong></td>
+                                <td>Share your genuine reason for purchasing. Builds authenticity.</td>
+                                <td>"3 reasons I finally bought the Bowflex Adjustable Dumbbells... #3 saved my marriage." (Link in bio)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>The Quick Tip/How-To</strong></td>
+                                <td>Provide a tiny piece of valuable advice.</td>
+                                <td>"How to properly deadlift with perfect form in 20 seconds." (Uses resistance bands you link to)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>The Unboxing/First Look</strong></td>
+                                <td>Create anticipation and showcase the product.</td>
+                                <td>A speedy unboxing of a new protein powder container, highlighting its size and scoop. "Full review on my blog! Link in bio."</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h3>Key Tactics for All Platforms:</h3>
+                    
+                    <p><strong>Hook in the First 2 Seconds:</strong> Use text overlay, a surprising fact, or a quick action to stop the scroll.</p>
+                    
+                    <p><strong>Use Trending Audio:</strong> Videos with popular sounds get promoted more by the algorithm.</p>
+                    
+                    <p><strong>Strong Call-to-Action (CTA):</strong> Always end with a directive: "Full review on my blog!" "Link in bio for the best price!" "Comment below for the link!"</p>
+                    
+                    <p><strong>Consistency > Perfection:</strong> Posting 3-5 times per week with decent content is better than posting one perfect video per month.</p>
+                    
+                    <h2>3. Using Forums & Communities for Exposure (The Authority Builder)</h2>
+                    
+                    <p>Forums and communities (like Reddit, Quora, niche Facebook Groups) are places where your target audience actively asks questions. This is not for spamming links; it's for building authority.</p>
+                    
+                    <h3>The Rule: Provide Value First, Promote Never.</h3>
+                    
+                    <h3>The Step-by-Step Method:</h3>
+                    
+                    <p><strong>Find Your Communities:</strong> Search Reddit for subreddits (r/yourniche), find Facebook Groups, or browse Quora topics related to your niche.</p>
+                    
+                    <p><strong>Lurk and Learn:</strong> Spend a week understanding the rules, culture, and common questions. Read the rules on self-promotion! Many ban affiliate links outright.</p>
+                    
+                    <p><strong>Become a Helpful Member:</strong> Answer questions thoroughly without any links. Establish yourself as a knowledgeable and generous person.</p>
+                    
+                    <p><strong>The Strategic "Link Drop":</strong> Only share a link when it is the absolute best answer to a question and when the rules allow it.</p>
+                    
+                    <p><strong>Bad:</strong> "Check out my review on my blog for the answer!" (This is spam.)</p>
+                    
+                    <p><strong>Good:</strong> Write a detailed answer summarizing the pros and cons of a product. Then say: "I've written a much more detailed guide that compares five models, including the one you mentioned, with video demonstrations. You can find it here if you're interested: [Your Link]"</p>
+                    
+                    <p><strong>Your Profile is Your Promotion:</strong> Often, you can't post links in the group, but you can have a link in your profile bio (on Reddit, Facebook, Quora). Your helpful comments will drive curious people to click your profile and then onto your site.</p>
+                    
+                    <div class="key-takeaways">
+                        <h3>Class 8 Key Takeaways:</h3>
+                        <ul>
+                            <li>SEO is your foundation for sustainable, passive traffic. Focus on keyword intent and creating the best content.</li>
+                            <li>Short-form video is for top-of-funnel awareness. Provide quick value and always drive traffic to your "link in bio."</li>
+                            <li>Forum marketing is about being a helpful member of a community. Provide 10x more value than you promote. Your reputation is the promotion.</li>
+                            <li>Patience and Consistency: None of these strategies work overnight. Commit to a schedule for creating and promoting your content.</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 9,
+                title: "Traffic Generation Strategies (Paid)",
+                description: "Facebook/Instagram ads for affiliate offers. Google ads basics. Budgeting & testing campaigns.",
+                driveId: "placeholder9", // Replace with your actual Google Drive video ID
+                content: `
+                    <h1>Class 9: Traffic Generation Strategies (Paid)</h1>
+                    
+                    <p>This class covers the fundamentals of using paid advertising to drive targeted traffic to your affiliate content. The goal is not to make you an expert overnight but to help you understand the platforms, how to approach them, and how to mitigate risk.</p>
+                    
+                    <h2>1. A Crucial Warning & Mindset for Affiliates</h2>
+                    
+                    <p>Most major ad platforms (Facebook, Google, TikTok) explicitly prohibit direct linking to affiliate offers. This means you cannot simply create an ad that clicks directly through to Amazon or another merchant. They ban this because it leads to a poor user experience.</p>
+                    
+                    <h3>The Approved Strategy: The Bridge Page</h3>
+                    
+                    <p>You must send paid traffic to a page you own and control (your "Home Base" from Class 6). This page adds value before presenting the affiliate link.</p>
+                    
+                    <p><strong>The Ad → Your Blog Post/Review (adds value, builds trust) → Affiliate Link (the click to the merchant)</strong></p>
+                    
+                    <p>This complies with ad policies and, crucially, has a much higher conversion rate because you've educated the visitor first.</p>
+                    
+                    <h2>2. Facebook/Instagram Ads for Affiliate Offers</h2>
+                    
+                    <p>Facebook's strength is its incredible targeting options based on user interests, behaviors, and demographics.</p>
+                    
+                    <h3>How to Approach It:</h3>
+                    
+                    <p><strong>Campaign Objective:</strong> Use Traffic or Engagement objectives when starting. Never use "Conversions" initially, as it requires more data and budget.</p>
+                    
+                    <h3>Targeting:</h3>
+                    
+                    <p><strong>Interest-Based:</strong> Target people interested in your niche, complementary brands, and publications. (e.g., target people interested in "NutriBullet," "Vitamix," "Men's Health magazine" for a blender review).</p>
+                    
+                    <p><strong>Lookalike Audiences:</strong> This is Facebook's most powerful tool. Once you have a list of website visitors or email subscribers (even just 100-300 people), you can have Facebook find new people who are similar to them.</p>
+                    
+                    <h3>Ad Creative:</h3>
+                    
+                    <p><strong>Video is King:</strong> Short, native-looking videos showing a problem/solution or a key benefit perform best.</p>
+                    
+                    <p><strong>Carousel Ads:</strong> Great for showing multiple products or multiple features of one product.</p>
+                    
+                    <p><strong>Copy:</strong> Focus on the benefit and a strong reason to click. "Tired of lumpy smoothies? Learn the one feature most people miss when buying a blender."</p>
+                    
+                    <p><strong>The Funnel:</strong> Ad → Your in-depth review article → Affiliate link within the article.</p>
+                    
+                    <h2>3. Google Ads Basics for Affiliates</h2>
+                    
+                    <p>Google's strength is user intent. People on Google are actively searching for solutions. You're answering their query directly.</p>
+                    
+                    <h3>How to Approach It:</h3>
+                    
+                    <p><strong>Campaign Type:</strong> Use Search Campaigns with Search Network Only. This shows text ads on Google search results pages.</p>
+                    
+                    <p><strong>Keywords:</strong> Bid on the long-tail, high-intent keywords you discovered in your SEO research.</p>
+                    
+                    <p><strong>Examples:</strong> "best blender for frozen fruit," "[Product Name] reviews," "[Product Name] vs [Competitor]"</p>
+                    
+                    <p>Avoid broad, commercial keywords like "buy blender" as they are expensive and competitive.</p>
+                    
+                    <h3>Ad Copy:</h3>
+                    
+                    <p>Your ad must directly match the keyword's intent.</p>
+                    
+                    <p><strong>Headline:</strong> Include the keyword. (e.g., "Best Blender for Frozen Fruit")</p>
+                    
+                    <p><strong>Description:</strong> State the value of your content. "Read Our Detailed 2024 Review. We Tested 5 Top Models. Pros, Cons & Verdict."</p>
+                    
+                    <p><strong>The Funnel:</strong> Ad → Your incredibly detailed, comparison-style review article → Affiliate link.</p>
+                    
+                    <p><strong>Important Note:</strong> Google has stricter rules on affiliate sites. Your landing page (your review) must provide significant added value (original content, detailed analysis) to be allowed. Thin, auto-generated, or purely affiliate-heavy pages can get disapproved.</p>
+                    
+                    <h2>4. Budgeting & Testing Campaigns</h2>
+                    
+                    <p>This is the most important section. Paid ads can burn money fast if you're not careful.</p>
+                    
+                    <h3>Budgeting for Beginners:</h3>
+                    
+                    <p><strong>Start SMALL.</strong> Allocate a learning budget you are 100% comfortable losing. $10-$20 per day per campaign is a great starting point.</p>
+                    
+                    <p><strong>Your Goal is NOT Profit Initially.</strong> Your goal is to acquire data as cheaply as possible on what works (and what doesn't).</p>
+                    
+                    <p><strong>Key Metric:</strong> Focus on Cost Per Click (CPC) first. How much does it cost to get one person to your site? Then, you'll worry about Cost Per Acquisition (how much it costs to get a sale).</p>
+                    
+                    <h3>The Scientific Method of Testing:</h3>
+                    
+                    <p>You must test one variable at a time to understand what drives performance.</p>
+                    
+                    <p><strong>Test Audiences/Keywords:</strong> Create 2-3 different ad sets targeting different interests (e.g., one targeting "yoga enthusiasts," another targeting "pilates enthusiasts"). Use the same ad creative for both. Let them run. Which audience clicks more and costs less? Double down on the winner.</p>
+                    
+                    <p><strong>Test Ad Creative:</strong> Once you find a winning audience, test 2-3 different ads against that same audience. Test different images/videos and headlines. Which ad has a higher click-through rate (CTR)? Double down on the winner.</p>
+                    
+                    <p><strong>Test Landing Pages:</strong> Finally, you could test sending traffic to two different versions of your review page (e.g., different headlines or layouts). This is more advanced.</p>
+                    
+                    <h3>Analyzing Results:</h3>
+                    
+                    <p><strong>Give it time.</strong> Don't judge a campaign after $10. Let it run for at least 3-5 days to gather statistically significant data.</p>
+                    
+                    <p><strong>Kill losers fast.</strong> If an ad set or ad is spending money with no clicks or very high CPC, pause it.</p>
+                    
+                    <p><strong>Scale winners slowly.</strong> When you find a combination of audience and ad that gets a good CPC, gradually increase its daily budget (e.g., from $10/day to $15/day) and monitor performance.</p>
+                    
+                    <div class="key-takeaways">
+                        <h3>Class 9 Key Takeaways:</h3>
+                        <ul>
+                            <li>You cannot direct-link. Paid traffic must be sent to your own value-added content (blog review, video) first.</li>
+                            <li>Facebook is great for interest-based targeting and creating demand.</li>
+                            <li>Google Ads is great for capturing existing demand based on search intent.</li>
+                            <li>Start with a small learning budget. Your initial goal is to gather data, not generate profit.</li>
+                            <li>Test systematically. Isolate one variable (audience or creative) at a time to discover what works.</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 10,
+                title: "Email Marketing for Affiliates",
+                description: "Setting up email lists. Free vs. paid email tools. Building a simple sales funnel.",
+                driveId: "placeholder10", // Replace with your actual Google Drive video ID
+                content: `
+                    <h1>Class 10: Email Marketing for Affiliates</h1>
+                    
+                    <p>This class will teach you how to build an email list, why it's your #1 asset, and how to use it to build relationships and drive affiliate sales without being spammy.</p>
+                    
+                    <h2>1. Why an Email List is Your Greatest Asset</h2>
+                    
+                    <p>Social media platforms come and go. Algorithms change. Your account could get suspended. But your email list is an audience you own and control. You can communicate with them directly, anytime.</p>
+                    
+                    <p><strong>It's a Direct Channel:</strong> You don't have to hope the algorithm shows your post to 5% of your followers. You land right in their inbox.</p>
+                    
+                    <p><strong>It Builds Deep Trust:</strong> People who give you their email are your most loyal fans. They've explicitly given you permission to contact them.</p>
+                    
+                    <p><strong>It Converts:</strong> Email marketing consistently delivers one of the highest returns on investment (ROI) of any marketing channel. This audience is primed to listen to your recommendations.</p>
+                    
+                    <h2>2. Setting Up Your Email List: The Basics</h2>
+                    
+                    <p>The process is simple, but doing it right is key.</p>
+                    
+                    <p><strong>1. Choose an Email Service Provider (ESP):</strong> This is the software that manages your subscribers, sends emails, and handles legal compliance. You cannot use Gmail or Outlook. You need a professional ESP.</p>
+                    
+                    <p><strong>2. Create a Lead Magnet (a "Freebie"):</strong> This is a bribe. Why should someone give you their email? You must offer something of high value in exchange.</p>
+                    
+                    <p><strong>Examples:</strong> A cheat sheet, a PDF guide, a exclusive video tutorial, a discount code, a resource list, a free course.</p>
+                    
+                    <p><strong>Crucially,</strong> it must be highly relevant to your niche and your affiliate products. If your niche is "organic gardening," your lead magnet could be "The Beginner's Checklist for a Pest-Free Garden." This attracts people who would be interested in your affiliate links for gardening tools, seeds, and soil.</p>
+                    
+                    <p><strong>3. Create an Opt-In Form:</strong> Your ESP will provide code to create a form. Place this form prominently on your website: in the sidebar, at the end of blog posts, and as a pop-up (though use pop-ups sparingly to avoid annoying users).</p>
+                    
+                    <p><strong>4. The Welcome Sequence:</strong> The first few emails a new subscriber gets. This is not for selling! This is for delivering the lead magnet, setting expectations, and building a relationship.</p>
+                    
+                    <h2>3. Free vs. Paid Email Tools</h2>
+                    
+                    <p>You get what you pay for. This is one area where investing a small amount early is wise.</p>
+                    
+                    <table class="myth-reality-table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Free Plans (e.g., MailerLite, Mailchimp)</th>
+                                <th>Paid Plans (e.g., ConvertKit, ActiveCampaign)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Subscribers</strong></td>
+                                <td>Usually limited to 500-1,000.</td>
+                                <td>Unlimited plans or much higher limits.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Features</strong></td>
+                                <td>Basic automation and templates.</td>
+                                <td>Advanced automation (visual funnels, tagging), better segmentation, more integrations.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Best For</strong></td>
+                                <td>Absolute beginners just starting out.</td>
+                                <td>Serious affiliates who want to scale. The advanced features are worth every penny.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <p><strong>Recommendation:</strong> Start with a free plan (MailerLite is excellent). The moment you can afford it (e.g., $10-$15/month), upgrade to a paid plan like ConvertKit, which is built for creators and affiliates.</p>
+                    
+                    <h2>4. Building a Simple Sales Funnel</h2>
+                    
+                    <p>A "funnel" is just a automated series of emails that guides a subscriber toward a goal. Here is a dead-simple but highly effective funnel you can set up.</p>
+                    
+                    <p><strong>The Scenario:</strong> You have a lead magnet called "5 Easy Recipes for Your Air Fryer." Your goal is to recommend your favorite air fryer (your affiliate link).</p>
+                    
+                    <h3>The Simple Funnel:</h3>
+                    
+                    <p><strong>Email 1 (Instant): "Here's Your Free Guide!"</strong> Automatically sent the moment they subscribe. Deliver the PDF. No links, no selling. Pure value.</p>
+                    
+                    <p><strong>Email 2 (24 hours later): "Getting the Most Out of Your Recipes"</strong> Provide one extra tip not in the guide. Ask a question to engage them (e.g., "What's the first thing you're going to cook?").</p>
+                    
+                    <p><strong>Email 3 (48 hours later): "The Tool I Use"</strong> Now, you can naturally introduce the product. "Hey, a lot of people have been asking which air fryer I use to make these recipes. I've been using the [Product Name] for over a year because it's [mention 1-2 key benefits]. It's been a game-changer for me. If you're in the market for one, you can check it out here: [Your Affiliate Link]."</p>
+                    
+                    <p>This works because you provided immense value first. You gave them a free guide, then you helped them again, and then you made a recommendation. This feels helpful, not salesy.</p>
+                    
+                    <h3>Ongoing Email Strategy:</h3>
+                    
+                    <p><strong>Newsletters:</strong> Send a weekly or bi-weekly email with your latest blog post, a tip, or a personal update. Always provide value first, then include one relevant affiliate link.</p>
+                    
+                    <p><strong>Broadcasts:</strong> Send an email when you publish a massive review or when there's a huge sale (like Amazon Prime Day or Black Friday). Your list will appreciate the heads-up on deals.</p>
+                    
+                    <div class="key-takeaways">
+                        <h3>Class 10 Key Takeaways:</h3>
+                        <ul>
+                            <li>Your email list is an owned asset. It is the most valuable and direct channel you have.</li>
+                            <li>You need a Lead Magnet. Offer high-value free content in exchange for an email address.</li>
+                            <li>Start with a free ESP like MailerLite, but plan to upgrade to a paid tool like ConvertKit as you grow.</li>
+                            <li>Build a simple automated funnel: Value → Value → Soft Recommendation. Focus on helping, not selling.</li>
+                            <li>Always provide value first in every email. Your affiliate links should feel like a natural, helpful part of the conversation.</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 11,
+                title: "Analytics & Optimization",
+                description: "Reading reports from affiliate networks. A/B testing content or ads. Scaling what works, killing what doesn't.",
+                driveId: "placeholder11", // Replace with your actual Google Drive video ID
+                content: `
+                    <h1>Class 11: Analytics & Optimization</h1>
+                    
+                    <p>This class is about learning from your results. You will learn how to interpret data, run experiments to improve performance, and make intelligent decisions about where to focus your energy for maximum growth.</p>
+                    
+                    <h2>1. Reading Reports from Affiliate Networks</h2>
+                    
+                    <p>Your affiliate network dashboard is your source of truth. It tells you what's actually making money. The key is knowing which metrics matter.</p>
+                    
+                    <h3>Key Metrics to Monitor:</h3>
+                    
+                    <p><strong>Clicks:</strong> The number of times your affiliate link was clicked.</p>
+                    
+                    <p><strong>Conversions / Sales:</strong> The number of times a click resulted in a desired action (a sale, a lead).</p>
+                    
+                    <p><strong>Conversion Rate (CR):</strong> (Conversions / Clicks) * 100. This is a critical metric. It tells you how effective your content is at persuading people to buy. A 1% CR is a common starting benchmark; 5%+ is excellent.</p>
+                    
+                    <p><strong>Earnings / Commission:</strong> The amount of money you've earned.</p>
+                    
+                    <p><strong>Earnings Per Click (EPC):</strong> (Earnings / Clicks). This is the most important metric for judging an offer's performance. It tells you the average value of a single click from your traffic. A higher EPC is better.</p>
+                    
+                    <p><strong>Returning vs. New Customer:</strong> Some networks show this. Returning customers often mean you've built strong loyalty.</p>
+                    
+                    <h3>How to Use This Data:</h3>
+                    
+                    <p><strong>High Clicks, Low Conversions:</strong> People are interested, but something is stopping them from buying. Your content might not be persuasive enough, the price might be too high, or your call-to-action is weak. This is a content problem.</p>
+                    
+                    <p><strong>Low Clicks, High Conversions:</strong> Few people click your link, but those who do almost always buy. This means your content is highly persuasive, but your link might be hard to find, or you're not promoting the link enough. This is a promotion/placement problem.</p>
+                    
+                    <p><strong>Analyze by URL:</strong> Use the custom tracking IDs from Class 5. This lets you see which specific blog post, YouTube video, or social media post is generating the sales. Double down on the content types that work.</p>
+                    
+                    <h2>2. A/B Testing Content or Ads (The Scientific Method)</h2>
+                    
+                    <p>A/B testing (or split testing) is the process of comparing two versions of something to see which one performs better. You change one single variable to isolate its effect.</p>
+                    
+                    <h3>What You Can Test:</h3>
+                    
+                    <h3>On Your Website:</h3>
+                    
+                    <p><strong>Headlines:</strong> (e.g., "The Best Blender of 2024" vs. "Our Honest Review of the Ninja Blender")</p>
+                    
+                    <p><strong>Call-to-Action (CTA) Buttons:</strong> (e.g., "Check Price on Amazon" vs. "See Today's Deal" – and different colors)</p>
+                    
+                    <p><strong>Images:</strong> (Lifestyle image vs. product-only image)</p>
+                    
+                    <p><strong>Placement of Affiliate Links:</strong> (Within content vs. a button at the end)</p>
+                    
+                    <h3>In Your Emails:</h3>
+                    
+                    <p><strong>Subject Lines:</strong> This is the biggest lever for open rates.</p>
+                    
+                    <p><strong>Time/Day of Send:</strong> When does your audience engage most?</p>
+                    
+                    <h3>In Paid Ads:</h3>
+                    
+                    <p><strong>Ad Creative</strong> (Image/Video)</p>
+                    
+                    <p><strong>Ad Copy</strong> (Headline and text)</p>
+                    
+                    <p><strong>Audiences</strong></p>
+                    
+                    <h3>How to Run a Simple A/B Test:</h3>
+                    
+                    <p><strong>Choose One Element to Test:</strong> (e.g., your email subject line).</p>
+                    
+                    <p><strong>Create Two Versions (A and B):</strong> Version A (Control): Your current subject line. Version B (Variation): One changed element (e.g., adding an emoji 🤖).</p>
+                    
+                    <p><strong>Split Your Audience Randomly:</strong> Send Version A to 50% of your list and Version B to the other 50%. Most email and ad platforms do this automatically.</p>
+                    
+                    <p><strong>Define Your Goal & Run the Test:</strong> Your goal is a higher open rate. Let the test run until you have a statistically significant result (usually at least 100 sends per version).</p>
+                    
+                    <p><strong>Analyze the Winner:</strong> Did Version A or Version B have a meaningfully higher open rate? The winner becomes your new control.</p>
+                    
+                    <p><strong>Golden Rule:</strong> Only test one thing at a time. If you change the headline AND the image, you won't know which change caused the difference.</p>
+                    
+                    <h2>3. Scaling What Works, Killing What Doesn't</h2>
+                    
+                    <p>This is the optimization cycle. It's a continuous process of reinvesting your effort and money into winners and eliminating losers.</p>
+                    
+                    <h3>The Process:</h3>
+                    
+                    <p><strong>Measure:</strong> Use your analytics to gather data for a set period (e.g., 30-90 days). Identify clear winners and losers.</p>
+                    
+                    <p><strong>Analyze:</strong> Why did the winner work? Was it the topic? The format? The audience targeted? Why did the loser fail?</p>
+                    
+                    <p><strong>Kill:</strong> Stop investing time and money in what doesn't work. This is hard but essential. Pause the underperforming ad. Stop writing that type of blog post. Unpublish or rewrite content that gets traffic but no conversions.</p>
+                    
+                    <p><strong>Scale:</strong> Double down on what works.</p>
+                    
+                    <ul>
+                        <li><strong>Content Scaling:</strong> If a "Best X" post is a winner, create more "Best Y" posts. If a tutorial video performed well, make more tutorials.</li>
+                        <li><strong>Traffic Scaling:</strong> If a specific Facebook ad audience is profitable, increase its budget. If a Pinterest pin is driving traffic, create more pins like it.</li>
+                        <li><strong>Keyword Scaling:</strong> If you ranked for a keyword and it converts, find and target all similar keywords.</li>
+                    </ul>
+                    
+                    <p><strong>Repeat:</strong> This is not a one-time task. Continuously measure, analyze, kill, and scale.</p>
+                    
+                    <h3>The 80/20 Rule in Action:</h3>
+                    
+                    <p>You will likely find that 20% of your content generates 80% of your revenue. Your job is to identify that 20% and then spend 80% of your time creating more content just like it or driving more traffic to it.</p>
+                    
+                    <div class="key-takeaways">
+                        <h3>Class 11 Key Takeaways:</h3>
+                        <ul>
+                            <li>Focus on metrics that matter: Conversion Rate (CR) and Earnings Per Click (EPC) are more important than raw clicks.</li>
+                            <li>Use data to diagnose problems: Low clicks? Low conversions? The data tells you what to fix.</li>
+                            <li>Always be testing: You can always improve a headline, an image, or a CTA. A/B testing removes the guesswork.</li>
+                            <li>Be ruthless and analytical: Your strategy should be guided by data, not emotion. Kill losers without mercy and scale winners without hesitation.</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 12,
+                title: "Compliance & Legal Basics",
+                description: "Disclosures & transparency (avoiding bans). Platform policies (Facebook, Google, TikTok). Protecting your accounts.",
+                driveId: "placeholder12", // Replace with your actual Google Drive video ID
+                content: `
+                    <h1>Class 12: Compliance & Legal Basics</h1>
+                    
+                    <p>This class covers the non-negotiable rules of affiliate marketing. Understanding and implementing these practices protects your income, your reputation, and your business from catastrophic penalties.</p>
+                    
+                    <h2>1. Disclosures & Transparency (The FTC Rules)</h2>
+                    
+                    <p>The U.S. Federal Trade Commission (FTC) mandates that any material connection between an endorser and a company must be clearly disclosed. This is the most important legal requirement for affiliates.</p>
+                    
+                    <p><strong>The Rule:</strong> If you receive any form of compensation (commission, free product, payment) for a recommendation, you must disclose it clearly and conspicuously.</p>
+                    
+                    <h3>How to Disclose Properly:</h3>
+                    
+                    <p><strong>Clarity:</strong> Use clear, unambiguous language.</p>
+                    
+                    <p><strong>Good:</strong> "Disclosure: I earn a commission if you click this link and make a purchase, at no additional cost to you."</p>
+                    
+                    <p><strong>Bad:</strong> "Thanks to our partners." (Too vague)</p>
+                    
+                    <p><strong>Prominence:</strong> The disclosure must be impossible to miss. It should be placed before the affiliate link, not hidden after it or in a footer.</p>
+                    
+                    <h3>Platform-Specific Guidance:</h3>
+                    
+                    <p><strong>Blog/Website:</strong> Place the disclosure at the beginning of any post containing affiliate links. e.g., "This post may contain affiliate links. Please see our disclosure policy for details."</p>
+                    
+                    <p><strong>YouTube:</strong> You must verbally state that the video contains affiliate links AND include a text disclosure in the video description. Do not rely on a single YouTube checkbox.</p>
+                    
+                    <p><strong>Social Media (Instagram, TikTok, Twitter):</strong> Use clear hashtags like #ad, #affiliate, or #paid. On platforms with character limits, these hashtags often suffice. For Instagram Stories, use the built-in "Paid Partnership" sticker.</p>
+                    
+                    <p><strong>Assume Your Audience is Smart:</strong> They appreciate honesty. Transparency builds trust, while hiding the relationship destroys it and invites regulatory action.</p>
+                    
+                    <p><strong>Consequence of Non-Compliance:</strong> Fines from the FTC (running into thousands of dollars per violation) and being permanently banned from affiliate networks for violating their terms of service.</p>
+                    
+                    <h2>2. Platform Policies (Facebook, Google, TikTok)</h2>
+                    
+                    <p>Each major platform has its own strict rules regarding affiliate marketing. Violating these gets your ad account or entire profile banned, often with no appeal.</p>
+                    
+                    <h3>Facebook/Instagram Meta Policy:</h3>
+                    
+                    <p><strong>The Golden Rule:</strong> You cannot use affiliate links in your ads. Your ads must link to a landing page on your own website that provides significant value (e.g., your review). The affiliate link is placed on that page.</p>
+                    
+                    <p><strong>Prohibited Practices:</strong> "Bait-and-switch" tactics where the ad doesn't match the landing page content. Your landing page must be relevant, functional, and not overly crowded with ads.</p>
+                    
+                    <p><strong>Consequence:</strong> Instant ad rejection or permanent ad account ban.</p>
+                    
+                    <h3>Google Ads Policy:</h3>
+                    
+                    <p><strong>Value-Added Requirement:</strong> Your landing page (the site you send traffic to) must provide significant added value before the affiliate link. This means original content, genuine reviews, comparisons, or additional resources.</p>
+                    
+                    <p><strong>Prohibited Practices:</strong> "Thin affiliate" sites—pages or sites that are primarily just affiliate links with no original content. Doorway pages—pages designed solely to rank and send users to another site.</p>
+                    
+                    <p><strong>Consequence:</strong> Your site can be banned from the Google Ads network entirely, crippling your ability to run search ads.</p>
+                    
+                    <h3>TikTok Policy:</h3>
+                    
+                    <p><strong>Transparency:</strong> Must use the "Paid Partnership" feature or clearly disclose affiliate relationships in your video and description.</p>
+                    
+                    <p><strong>Content Quality:</strong> Prohibits spammy, low-quality, or misleading content.</p>
+                    
+                    <p><strong>Consequence:</strong> Shadowbanning (reducing your reach), removal of content, or account suspension.</p>
+                    
+                    <p><strong>Universal Rule:</strong> Always read the specific advertising policies for any platform you use. They change frequently.</p>
+                    
+                    <h2>3. Protecting Your Accounts</h2>
+                    
+                    <p>Your affiliate and advertising accounts are your business's lifeline. Losing them is a catastrophic event. Protect them diligently.</p>
+                    
+                    <h3>1. Diversify Your Traffic Sources:</h3>
+                    
+                    <p>Do not rely on a single platform for all your traffic. If you only use Facebook ads and your ad account gets banned, your business is over. Have a mix:</p>
+                    
+                    <p><strong>Owned:</strong> SEO (Google organic traffic), Email List.</p>
+                    
+                    <p><strong>Rented:</strong> Facebook Ads, Pinterest, TikTok Organic.</p>
+                    
+                    <p><strong>Paid:</strong> Google Ads, Pinterest Ads.</p>
+                    
+                    <h3>2. Diversify Your Revenue Streams:</h3>
+                    
+                    <p>Do not rely on a single affiliate network or merchant. If you only promote Amazon and your Associates account gets banned, your income goes to zero.</p>
+                    
+                    <ul>
+                        <li>Join multiple networks (ShareASale, CJ, Impact).</li>
+                        <li>Have a mix of direct programs and network programs.</li>
+                    </ul>
+                    
+                    <h3>3. Practice Account Hygiene:</h3>
+                    
+                    <p><strong>Read TOS:</strong> Actually read the Terms of Service for networks and platforms you join.</p>
+                    
+                    <p><strong>Avoid "Black Hat" Tactics:</strong> Never use clickbait, misleading ads, auto-click software, or any other tactic that violates policies. It's not worth the risk.</p>
+                    
+                    <p><strong>Track Everything:</strong> Use your own tracking (from Class 5) to monitor for suspicious activity that might look like fraud to a network.</p>
+                    
+                    <p><strong>Secure Your Logins:</strong> Use strong, unique passwords and two-factor authentication (2FA) on every single account (email, hosting, affiliate networks, social media).</p>
+                    
+                    <div class="key-takeaways">
+                        <h3>Class 12 Key Takeaways:</h3>
+                        <ul>
+                            <li>Disclose, disclose, disclose. Always be transparent about your affiliate relationships using clear language, placed prominently. It's the law and it builds trust.</li>
+                            <li>Never direct-link in paid ads. Always send traffic to a value-added page on your own website first. This is the #1 rule for complying with platform policies.</li>
+                            <li>Diversify everything. Do not put all your eggs in one basket with traffic or income sources. This is your primary risk mitigation strategy.</li>
+                            <li>Protect your accounts like Fort Knox. They are your business. Read TOS, avoid shady tactics, and use strong security practices.</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 13,
+                title: "Scaling & Long-Term Growth",
+                description: "Automating parts of your business. Diversifying traffic sources. Turning affiliate marketing into a brand.",
+                driveId: "placeholder13", // Replace with your actual Google Drive video ID
+                content: `
+                    <h1>Class 13: Scaling & Long-Term Growth</h1>
+                    
+                    <p>This class is about strategy. You've learned the tactics; now we focus on how to amplify your results, protect your income, and build an asset that has real value.</p>
+                    
+                    <h2>1. Automating Parts of Your Business</h2>
+                    
+                    <p>The goal of automation is to free up your most valuable resource: your time. You can't scale if you're doing every single task yourself.</p>
+                    
+                    <h3>What to Automate:</h3>
+                    
+                    <p><strong>Social Media Sharing:</strong> Use a scheduler like Buffer, Later, or Publer to plan and automatically publish your content across all platforms weeks in advance.</p>
+                    
+                    <p><strong>Email Marketing:</strong> This is the biggest automation lever. Set up automated welcome sequences, nurture sequences for new subscribers, and follow-up sequences for people who click links but don't buy. This works 24/7.</p>
+                    
+                    <p><strong>Content Repurposing:</strong> Create systems. A single pillar blog post can be automatically turned into:</p>
+                    
+                    <ul>
+                        <li>A thread for Twitter/X (using a tool like Typefully)</li>
+                        <li>Multiple image quotes for Pinterest and Instagram</li>
+                        <li>A script for a YouTube Short or TikTok</li>
+                    </ul>
+                    
+                    <p><strong>Reporting:</strong> Use Google Data Studio (Looker Studio) to create a dashboard that pulls in data from your affiliate networks, Google Analytics, and email platform. View your entire business's performance in one place without manually checking each account.</p>
+                    
+                    <p><strong>The Mindset:</strong> Your role should evolve from content creator to systems manager. You spend less time doing the tasks and more time designing and improving the systems that execute them.</p>
+                    
+                    <h2>2. Diversifying Traffic Sources (Beyond SEO & Social)</h2>
+                    
+                    <p>Relying on one or two traffic sources is a major business risk. An algorithm change or a penalty can be devastating. True scale comes from building a diversified traffic portfolio.</p>
+                    
+                    <h3>Traffic Sources to Explore:</h3>
+                    
+                    <p><strong>Organic Search (SEO):</strong> Your foundation. Slow but stable and passive.</p>
+                    
+                    <p><strong>Paid Traffic (Ads):</strong> Your accelerator. Scalable but costs money. (Facebook, Google, Pinterest).</p>
+                    
+                    <p><strong>Email Marketing:</strong> Your owned audience. The most reliable and highest converting.</p>
+                    
+                    <p><strong>Video Platforms (YouTube):</strong> Builds deep trust and authority. Excellent for reviews and tutorials.</p>
+                    
+                    <p><strong>Community Building (Discord, Forum, FB Group):</strong> Creates raving fans and a self-sustaining ecosystem.</p>
+                    
+                    <p><strong>Partnerships & Collaborations:</strong> Guest posts on other blogs, appearances on podcasts, joint webinars. This taps into someone else's audience.</p>
+                    
+                    <p><strong>The Strategy:</strong> Master one primary traffic source (e.g., SEO). Then, systematically add a second (e.g., YouTube). Once that is steady, add a third (e.g., Pinterest). This creates multiple, independent streams of visitors to your site.</p>
+                    
+                    <h2>3. Turning Affiliate Marketing Into a Brand</h2>
+                    
+                    <p>This is the ultimate shift. You are no longer just "a guy with links." You are a trusted authority. A brand can charge premium rates, launch its own products, and command loyalty.</p>
+                    
+                    <h3>How to Build a Brand:</h3>
+                    
+                    <p><strong>Develop a Unique Voice & Perspective:</strong> What do you stand for? Is it brutal honesty? beginner-friendly explanations? high-end luxury reviews? Your voice should be consistent across all content.</p>
+                    
+                    <p><strong>Focus on a Specific Audience (Avatar):</strong> Stop trying to talk to everyone. Speak directly to one person—your ideal follower. Every piece of content should answer their questions and solve their problems.</p>
+                    
+                    <p><strong>Create Signature Content or Frameworks:</strong> Develop a unique way of analyzing products that people associate with you. (e.g., "The [Your Name] Value Score" or a specific rating system).</p>
+                    
+                    <p><strong>Move Beyond Reviews:</strong> While reviews are core, branch into content that solidifies your expertise:</p>
+                    
+                    <ul>
+                        <li><strong>Educational Content:</strong> "How to" guides, courses, e-books.</li>
+                        <li><strong>Entertaining Content:</strong> Behind-the-scenes, bloopers, personal stories.</li>
+                    </ul>
+                    
+                    <p><strong>Consider Your Own Product (The Endgame):</strong> The highest level of diversification is creating your own digital product (course, ebook, membership, software). You can promote it alongside affiliate offers and keep 100% of the profit. Your affiliate audience is the perfect market to validate and launch your own product to.</p>
+                    
+                    <h2>The Scaling Mindset: From Tactician to Strategist</h2>
+                    
+                    <table class="myth-reality-table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Beginner (Tactician)</th>
+                                <th>Scalable Business (Strategist)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Focus</strong></td>
+                                <td>"How do I make my first sale?"</td>
+                                <td>"How do I systemize and amplify what's already working?"</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Time</strong></td>
+                                <td>Trades time for money. Does everything.</td>
+                                <td>Leverages systems and automation. Buys time.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Traffic</strong></td>
+                                <td>Relies on 1-2 sources (usually free).</td>
+                                <td>Has a diversified portfolio of traffic sources.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Identity</strong></td>
+                                <td>"I'm an affiliate marketer."</td>
+                                <td>"I am the leading resource for [Niche] enthusiasts."</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Revenue</strong></td>
+                                <td>100% affiliate commissions.</td>
+                                <td>Mix of affiliate, advertising, own products, sponsorships.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="key-takeaways">
+                        <h3>Class 13 Key Takeaways:</h3>
+                        <ul>
+                            <li>Automate to liberate your time. Systemize repetitive tasks like social sharing and email sequences. Your focus should be on high-level strategy.</li>
+                            <li>Diversify or die. Do not rely on a single traffic source or income stream. Build a resilient business by adding new channels methodically.</li>
+                            <li>Build a brand, not just a site. Shift from being a anonymous reviewer to a trusted voice and authority. This allows you to command higher loyalty and value.</li>
+                            <li>The ultimate goal is ownership. Use affiliate marketing to fund and validate the creation of your own products and services, building a truly independent business.</li>
+                        </ul>
+                    </div>
+                `
+            }
+        ];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSupabase();
+            checkAuthAndPayment();
+        });
+
+        function initializeSupabase() {
+            try {
+                if (typeof CONFIG !== 'undefined' && CONFIG.SUPABASE.URL && CONFIG.SUPABASE.ANON_KEY) {
+                    // Use newer Supabase client initialization to avoid CSP issues
+                    supabase = window.supabase.createClient(CONFIG.SUPABASE.URL, CONFIG.SUPABASE.ANON_KEY, {
+                        auth: {
+                            autoRefreshToken: true,
+                            persistSession: true,
+                            detectSessionInUrl: false
+                        },
+                        global: {
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        },
+                        // Disable analytics to prevent storage warnings
+                        analytics: {
+                            enabled: false
+                        }
+                    });
+                    console.log('Supabase initialized successfully');
+                } else {
+                    console.error('Supabase configuration missing');
+                    redirectToLogin();
+                }
+            } catch (error) {
+                console.error('Failed to initialize Supabase:', error);
+                redirectToLogin();
+            }
+        }
+
+        async function checkAuthAndPayment() {
+            console.log('Starting authentication check...');
+            
+            if (!supabase) {
+                console.log('Supabase not initialized, redirecting to login');
+                redirectToLogin();
+                return;
+            }
+
+            try {
+                // Check if user is logged in
+                console.log('Checking user authentication...');
+                const { data: { user }, error: authError } = await supabase.auth.getUser();
+                
+                if (authError) {
+                    console.log('Auth error:', authError);
+                    redirectToLogin();
+                    return;
+                }
+                
+                if (!user) {
+                    console.log('No authenticated user found');
+                    redirectToLogin();
+                    return;
+                }
+
+                currentUser = user;
+                console.log('✅ User authenticated successfully:', user.email);
+
+                // Check payment status in students table
+                const { data: student, error: studentError } = await supabase
+                    .from('students')
+                    .select('has_paid, payment_reference')
+                    .eq('user_id', user.id)
+                    .single();
+
+                if (studentError || !student) {
+                    console.log('No student record found, checking user metadata...');
+                    // Fallback to user metadata if no student record
+                    if (user.user_metadata?.has_paid || user.user_metadata?.payment_ref) {
+                        console.log('✅ Payment verified via user metadata');
+                        loadCourseContent();
+                    } else {
+                        console.log('No payment verification found, redirecting to payment');
+                        redirectToPayment();
+                    }
+                } else if (student.has_paid) {
+                    console.log('✅ Payment verified via student record');
+                    loadCourseContent();
+                } else {
+                    console.log('Payment not verified, redirecting to payment');
+                    redirectToPayment();
+                }
+
+            } catch (error) {
+                console.error('❌ Auth check failed:', error);
+                redirectToLogin();
+            }
+        }
+
+        function loadCourseContent() {
+            // Hide loading state
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('courseContainer').style.display = 'flex';
+
+            // Display user info
+            displayUserInfo();
+
+            // Load classes
+            loadClasses();
+
+            // Setup logout
+            setupLogout();
+
+            // Load first class by default
+            loadClass(0);
+        }
+
+        function displayUserInfo() {
+            const emailElement = document.getElementById('userEmail');
+            if (emailElement && currentUser) {
+                emailElement.textContent = currentUser.email;
+            }
+        }
+
+        function loadClasses() {
+            const classesList = document.getElementById('classesList');
+            
+            courseClasses.forEach((courseClass, index) => {
+                const classElement = document.createElement('div');
+                classElement.className = 'class-item';
+                classElement.setAttribute('data-index', index);
+                
+                classElement.innerHTML = `
+                    <div class="class-number">Class ${courseClass.id}</div>
+                    <div class="class-title">${courseClass.title}</div>
+                `;
+                
+                classElement.addEventListener('click', () => loadClass(index));
+                classesList.appendChild(classElement);
+            });
+        }
+
+        function loadClass(index) {
+            const courseClass = courseClasses[index];
+            if (!courseClass) return;
+
+            // Update active class
+            document.querySelectorAll('.class-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector(`[data-index="${index}"]`).classList.add('active');
+
+            // Update main content
+            document.getElementById('currentClass').textContent = `Class ${courseClass.id}`;
+            document.getElementById('currentTitle').textContent = courseClass.title;
+            document.getElementById('videoDescription').textContent = courseClass.description;
+
+            // Load video or show placeholder
+            loadVideo(courseClass.driveId);
+            
+            // Load class content
+            loadClassContent(courseClass.content);
+            
+            currentClassIndex = index;
+        }
+
+        function loadClassContent(content) {
+            const classContentElement = document.getElementById('classContent');
+            
+            if (content && content.trim() !== '') {
+                classContentElement.innerHTML = content;
+                classContentElement.style.display = 'block';
+            } else {
+                classContentElement.style.display = 'none';
+            }
+        }
+
+        function loadVideo(videoId) {
+            const videoPlayer = document.getElementById('videoPlayer');
+            
+            if (videoId.startsWith('placeholder')) {
+                // Show placeholder for demo
+                videoPlayer.innerHTML = `
+                    <div class="video-placeholder-icon">🎥</div>
+                    <div class="video-placeholder-text">Video content coming soon</div>
+                    <div style="color: #999; font-size: 0.9rem; margin-top: 8px;">Replace with actual Google Drive video ID</div>
+                `;
+                videoPlayer.className = 'video-placeholder';
+            } else {
+                // Load Google Drive video using direct streaming URL for public videos
+                const iframe = document.createElement('iframe');
+                // Use the direct streaming URL that works with "Anyone with the link" setting
+                iframe.src = `https://drive.google.com/file/d/${videoId}/preview?usp=sharing&autoplay=0&controls=1&disablekb=1&fs=1&modestbranding=1&rel=0&showinfo=0`;
+                iframe.className = 'video-player';
+                iframe.setAttribute('frameborder', '0');
+                iframe.setAttribute('allow', 'autoplay; encrypted-media; fullscreen; picture-in-picture');
+                iframe.setAttribute('allowfullscreen', '');
+                iframe.setAttribute('title', 'Course Video');
+                iframe.setAttribute('loading', 'lazy');
+                
+                // Add security attributes
+                iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-presentation allow-forms');
+                
+                // Styling to prevent context menu and text selection
+                iframe.style.userSelect = 'none';
+                iframe.style.webkitUserSelect = 'none';
+                iframe.style.mozUserSelect = 'none';
+                iframe.style.msUserSelect = 'none';
+                
+                // Clear container and add iframe
+                videoPlayer.innerHTML = '';
+                videoPlayer.appendChild(iframe);
+                videoPlayer.className = '';
+            }
+        }
+
+        function setupLogout() {
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', handleLogout);
+            }
+        }
+
+        async function handleLogout() {
+            try {
+                if (supabase) {
+                    await supabase.auth.signOut();
+                }
+                redirectToLogin();
+            } catch (error) {
+                console.error('Logout error:', error);
+                redirectToLogin();
+            }
+        }
+
+        function redirectToLogin() {
+            window.location.href = 'login.html';
+        }
+
+        function redirectToPayment() {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

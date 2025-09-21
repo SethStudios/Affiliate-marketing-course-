@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://js.paystack.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://paystack.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src 'self' https://checkout.paystack.com https://drive.google.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.paystack.co">
+    <title>Affiliate Marketing Course - Learn Like a Pro</title>
+    <meta name="description" content="Master affiliate marketing with our comprehensive course. Learn proven strategies to earn passive income online.">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <h1>Affiliate Mastery</h1>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="hero">
+                <div class="hero-content">
+                    <h1 class="headline">Learn Affiliate Marketing Like a Pro</h1>
+                    
+                    <p class="description">
+                        Join thousands of successful marketers who have transformed their financial future through our proven affiliate marketing strategies. Get step-by-step guidance, real case studies, and insider secrets that actually work in 2024.
+                    </p>
+
+                    <div class="benefits">
+                        <div class="benefit-item">
+                            <span class="checkmark">✓</span>
+                            <span>Proven strategies from 6-figure marketers</span>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="checkmark">✓</span>
+                            <span>Step-by-step implementation guides</span>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="checkmark">✓</span>
+                            <span>Real case studies and examples</span>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="checkmark">✓</span>
+                            <span>Lifetime access to updates</span>
+                        </div>
+                    </div>
+
+                    <div class="cta-section">
+                        <button id="enrollBtn" class="enroll-btn">
+                            <span class="btn-text">Enroll Now for ₦3,500</span>
+                            <span class="btn-subtext">Start Your Journey Today</span>
+                        </button>
+                        
+                    </div>
+                </div>
+
+                <div class="hero-visual">
+                    <div class="course-preview">
+                        <div class="preview-header">
+                            <span class="preview-title">Course Preview</span>
+                        </div>
+                        <div class="preview-content">
+                            <div class="module">Module 1: Introduction to Affiliate Marketing</div>
+                            <div class="module">Module 2: Understanding the Affiliate Ecosystem</div>
+                            <div class="module">Module 3: Choosing the Right Niche</div>
+                            <div class="module">Module 4: Finding & Joining Affiliate Programs </div>
+                            <div class="module">Module 5: Underystanding Affiliate Links & Tracking</div>
+                        </div>
+                        <p>And More</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2024 Affiliate Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Paystack Payment Script -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <!-- Supabase Client - Updated version with better CSP support -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.js"></script>
+    <!-- Configuration -->
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
